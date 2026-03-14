@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aura Concierge — Preference Selection</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="preferences.css">
+</head>
+<body>
+
+  <!-- ======== CURSOR FOLLOWER ======== -->
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+
+  <!-- ======== HEADER ======== -->
+  <header class="pref-header">
+    <div class="header-brand">
+      <span class="brand-name">Aura Discovery</span>
+      <span class="brand-sub">SCENT DNA ANALYSIS ▪ PHASE 01</span>
+    </div>
+    <div class="header-right">
+      <span class="step-tag">STEP <strong>02 / 04</strong></span>
+      <button class="close-btn" onclick="window.history.back()" aria-label="Close">✕</button>
+    </div>
+  </header>
+
+  <!-- ======== BREADCRUMB ======== -->
+  <nav class="breadcrumb-bar" aria-label="Progress">
+    <div class="breadcrumb-inner">
+      <div class="breadcrumb-steps">
+        <span class="bc-step done">01. PROFILE</span>
+        <span class="bc-sep">/</span>
+        <span class="bc-step active">02. PREFERENCES</span>
+        <span class="bc-sep">/</span>
+        <span class="bc-step">03. NOTES</span>
+        <span class="bc-sep">/</span>
+        <span class="bc-step">04. LAYERING</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:18px">
+        <div class="substep-indicator" style="display:flex;gap:6px;align-items:center;">
+          <span class="substep-dot active" style="width:6px;height:6px;border-radius:50%;background:#c9a84c;border:1px solid #c9a84c;"></span>
+          <span class="substep-dot" style="width:6px;height:6px;border-radius:50%;background:transparent;border:1px solid rgba(0,0,0,0.3);"></span>
+          <span class="substep-dot" style="width:6px;height:6px;border-radius:50%;background:transparent;border:1px solid rgba(0,0,0,0.3);"></span>
+          <span class="substep-dot" style="width:6px;height:6px;border-radius:50%;background:transparent;border:1px solid rgba(0,0,0,0.3);"></span>
+        </div>
+        <div class="breadcrumb-progress" style="display:flex;align-items:center;gap:10px;font-size:.55rem;letter-spacing:.12em;color:#6b6860;">
+          CALIBRATION PROGRESS
+          <span class="progress-pct" id="progress-pct" style="color:#c9a84c;font-weight:700;min-width:30px;">0%</span>
+          <div class="progress-track" style="width:110px;height:2px;background:rgba(0,0,0,0.1);border-radius:1px;overflow:hidden;">
+            <div class="progress-fill" id="progress-fill" style="height:100%;background:#c9a84c;width:0%;transition:width 0.5s;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ======== MAIN CONTENT ======== -->
+  <main class="pref-main">
+
+    <div class="pref-intro">
+      <h1 class="pref-question">Which atmosphere feels most like you?</h1>
+      <p class="pref-hint">select the environment where your sensory profile feels most aligned.</p>
+    </div>
+
+    <!-- CARD GRID -->
+    <div class="card-grid" id="card-grid">
+
+      <div class="atm-card" data-label="Fresh Morning" data-color="#52c7e8" data-mood="Fresh Morning">
+        <div class="card-img-wrap">
+          <img src="assets/preferences/fresh_morning.png" alt="Fresh Morning" class="card-img">
+          <div class="card-color-overlay" style="background: linear-gradient(135deg, #52c7e8, #a0e8ff)"></div>
+          <div class="card-fill-mask"></div>
+        </div>
+        <div class="card-meta">
+          <span class="card-code">REF. 01</span>
+        </div>
+        <div class="card-footer">
+          <h3 class="card-name">Fresh Morning</h3>
+          <p class="card-trait">DEWY &amp; INVIGORATING</p>
+        </div>
+        <div class="card-select-indicator">
+          <span class="select-circle"></span>
+        </div>
+      </div>
+
+      <div class="atm-card" data-label="Candlelit Dinner" data-color="#e84020" data-mood="Candlelit Dinner">
+        <div class="card-img-wrap">
+          <img src="assets/preferences/candlelit.png" alt="Candlelit Dinner" class="card-img">
+          <div class="card-color-overlay" style="background: linear-gradient(135deg, #e84020, #ffaa33)"></div>
+          <div class="card-fill-mask"></div>
+        </div>
+        <div class="card-meta">
+          <span class="card-code">REF. 02</span>
+        </div>
+        <div class="card-footer">
+          <h3 class="card-name">Candlelit Dinner</h3>
+          <p class="card-trait">WARM &amp; ALLURING</p>
+        </div>
+        <div class="card-select-indicator">
+          <span class="select-circle"></span>
+        </div>
+      </div>
+
+      <div class="atm-card" data-label="Clean Citrus" data-color="#d4c47a" data-mood="Fresh Morning">
+        <div class="card-img-wrap">
+          <img src="assets/preferences/clean_citrus.png" alt="Clean Citrus" class="card-img">
+          <div class="card-color-overlay" style="background: linear-gradient(135deg, #d4c47a, #fff5b0)"></div>
+          <div class="card-fill-mask"></div>
+        </div>
+        <div class="card-meta">
+          <span class="card-code">REF. 03</span>
+        </div>
+        <div class="card-footer">
+          <h3 class="card-name">Clean Citrus</h3>
+          <p class="card-trait">CRISP &amp; LUMINOUS</p>
+        </div>
+        <div class="card-select-indicator">
+          <span class="select-circle"></span>
+        </div>
+      </div>
+
+      <div class="atm-card" data-label="Rainy Forest" data-color="#20c472" data-mood="Rainy Forest">
+        <div class="card-img-wrap">
+          <img src="assets/preferences/rainy_forest.png" alt="Rainy Forest" class="card-img">
+          <div class="card-color-overlay" style="background: linear-gradient(135deg, #20c472, #90efc0)"></div>
+          <div class="card-fill-mask"></div>
+        </div>
+        <div class="card-meta">
+          <span class="card-code">REF. 04</span>
+        </div>
+        <div class="card-footer">
+          <h3 class="card-name">Rainy Forest</h3>
+          <p class="card-trait">EARTHY &amp; MYSTERIOUS</p>
+        </div>
+        <div class="card-select-indicator">
+          <span class="select-circle"></span>
+        </div>
+      </div>
+
+      <div class="atm-card" data-label="Midnight Floral" data-color="#8020ff" data-mood="Luxury Lounge">
+        <div class="card-img-wrap">
+          <img src="assets/preferences/midnight_floral.png" alt="Midnight Floral" class="card-img">
+          <div class="card-color-overlay" style="background: linear-gradient(135deg, #8020ff, #cc80ff)"></div>
+          <div class="card-fill-mask"></div>
+        </div>
+        <div class="card-meta">
+          <span class="card-code">REF. 05</span>
+        </div>
+        <div class="card-footer">
+          <h3 class="card-name">Midnight Floral</h3>
+          <p class="card-trait">DARK &amp; HYPNOTIC</p>
+        </div>
+        <div class="card-select-indicator">
+          <span class="select-circle"></span>
+        </div>
+      </div>
+
+      <div class="atm-card" data-label="Luxury Lounge" data-color="#c08040" data-mood="Luxury Lounge">
+        <div class="card-img-wrap">
+          <img src="assets/preferences/luxury_lounge.png" alt="Luxury Lounge" class="card-img">
+          <div class="card-color-overlay" style="background: linear-gradient(135deg, #7a3010, #c08040)"></div>
+          <div class="card-fill-mask"></div>
+        </div>
+        <div class="card-meta">
+          <span class="card-code">REF. 06</span>
+        </div>
+        <div class="card-footer">
+          <h3 class="card-name">Luxury Lounge</h3>
+          <p class="card-trait">VELVET &amp; SMOKY</p>
+        </div>
+        <div class="card-select-indicator">
+          <span class="select-circle"></span>
+        </div>
+      </div>
+
+    </div><!-- /card-grid -->
+  </main>
+
+  <!-- ======== BOTTOM BAR ======== -->
+  <footer class="pref-footer">
+    <button class="footer-btn footer-btn--ghost" onclick="window.history.back()">
+      <span class="arrow-left">←</span> RETURN TO PROFILE
+    </button>
+
+    <div class="footer-status">
+      <span class="status-dot" id="status-dot"></span>
+      <span class="status-text" id="status-text">AWAITING CHOICE READY</span>
+    </div>
+
+    <button class="footer-btn footer-btn--primary" id="continue-btn" disabled onclick="goToMoodSelection()">
+      CONTINUE ANALYSIS <span class="arrow-right">→</span>
+    </button>
+  </footer>
+
+  <script>
+    // ======== CUSTOM CURSOR ========
+    const dot  = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.transform = `translate(${mx}px, ${my}px)`;
+    });
+
+    (function animRing() {
+      rx += (mx - rx) * 0.1;
+      ry += (my - ry) * 0.1;
+      ring.style.transform = `translate(${rx}px, ${ry}px)`;
+      requestAnimationFrame(animRing);
+    })();
+
+    // ======== CARD FILL-ON-HOVER ========
+    // Each card has a .card-fill-mask that acts as a radial spotlight
+    // revealing the colour overlay as the cursor moves over it
+
+    const cards = document.querySelectorAll('.atm-card');
+    let selectedCard = null;
+
+    cards.forEach(card => {
+      const mask  = card.querySelector('.card-fill-mask');
+      const wrap  = card.querySelector('.card-img-wrap');
+      const color = card.dataset.color;
+
+      // Cursor proximity fill
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const xPct = (x / rect.width)  * 100;
+        const yPct = (y / rect.height) * 100;
+
+        // Elliptical radial mask centred on cursor
+        mask.style.background =
+          `radial-gradient(ellipse 70% 70% at ${xPct}% ${yPct}%, transparent 0%, rgba(0,0,0,0.55) 100%)`;
+        mask.style.opacity = '1';
+        wrap.style.transform = `scale(1.04)`;
+
+        // Scale cursor ring bigger
+        ring.style.width  = '60px';
+        ring.style.height = '60px';
+      });
+
+      card.addEventListener('mouseleave', () => {
+        if (!card.classList.contains('selected')) {
+          mask.style.opacity = '0';
+        }
+        wrap.style.transform = 'scale(1)';
+        ring.style.width  = '38px';
+        ring.style.height = '38px';
+      });
+
+      // Click to select
+      card.addEventListener('click', () => {
+        // Deselect previous
+        if (selectedCard && selectedCard !== card) {
+          selectedCard.classList.remove('selected');
+          const prevMask = selectedCard.querySelector('.card-fill-mask');
+          prevMask.style.opacity = '0';
+          prevMask.style.background = '';
+        }
+
+        card.classList.toggle('selected');
+        selectedCard = card.classList.contains('selected') ? card : null;
+
+        updateProgress();
+        updateStatusBar();
+      });
+    });
+
+    // ======== BREADCRUMB PROGRESS ANIMATION ========
+    let progress = 0;
+    function updateProgress() {
+      const sel = document.querySelectorAll('.atm-card.selected').length;
+      progress = sel > 0 ? 25 : 0;
+      document.getElementById('progress-pct').textContent = progress + '%';
+      document.getElementById('progress-fill').style.width = progress + '%';
+    }
+
+    function updateStatusBar() {
+      const sel = document.querySelectorAll('.atm-card.selected').length;
+      const cont = document.getElementById('continue-btn');
+      const dot  = document.getElementById('status-dot');
+      const txt  = document.getElementById('status-text');
+
+      if (sel > 0) {
+        cont.disabled = false;
+        cont.classList.add('ready');
+        dot.classList.add('active');
+        txt.textContent = 'PREFERENCE CHOICE READY';
+      } else {
+        cont.disabled = true;
+        cont.classList.remove('ready');
+        dot.classList.remove('active');
+        txt.textContent = 'AWAITING CHOICE READY';
+      }
+    }
+
+    // ======== NAVIGATION ========
+    function goToMoodSelection() {
+      const sel = document.querySelector('.atm-card.selected');
+      if (!sel) return;
+      // Pass the correlated mood to the next preference step
+      const mood = sel.dataset.mood;
+      sessionStorage.setItem('selectedMood', mood);
+      sessionStorage.setItem('selectedAtmosphere', sel.dataset.label);
+      window.location.href = 'fragrance_feel.html';
+    }
+
+    // ======== ENTRANCE ANIMATION ========
+    window.addEventListener('DOMContentLoaded', () => {
+      const cards = document.querySelectorAll('.atm-card');
+      cards.forEach((c, i) => {
+        c.style.opacity = '0';
+        c.style.transform = 'translateY(28px)';
+        setTimeout(() => {
+          c.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+          c.style.opacity = '1';
+          c.style.transform = 'translateY(0)';
+        }, 120 + i * 80);
+      });
+    });
+  </script>
+
+</body>
+</html>

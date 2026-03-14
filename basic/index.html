@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIScent - Premium Fragrance Consultation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+  <!-- Navigation (Minimal) -->
+  <nav class="navbar">
+    <div class="logo">AIScent</div>
+    <div class="nav-links">
+      <a href="#consultation">Consultation</a>
+      <a href="#wardrobe">Wardrobe</a>
+    </div>
+  </nav>
+
+  <!-- Section 1: Hero Section -->
+  <section class="hero-section">
+    <div class="hero-bg parallax" id="hero-bg"></div>
+    <div class="hero-content fade-in">
+      <h1 class="serif-heading">Discover the scent that feels like you</h1>
+      <p class="hero-subheadline">A guided fragrance consultation to uncover your scent personality and perfect layering combinations.</p>
+      <div class="hero-actions">
+        <a href="#consultation" class="btn btn-primary">Start Your Fragrance Profile</a>
+        <a href="#about" class="btn btn-secondary">Explore Fragrance Layering</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Fragrance Identity Introduction -->
+  <section id="about" class="identity-section fade-in">
+    <div class="container dual-column">
+      <div class="text-column">
+        <h2 class="serif-heading">Your Scent Personality</h2>
+        <p>Fragrance is not simply scent. It is presence, memory, and atmosphere. Our guided profiling helps you articulate the invisible aura you want to project.</p>
+      </div>
+      <div class="image-column">
+        <div class="image-placeholder ingredient-img"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: How Fragrance Profiling Works -->
+  <section class="how-it-works fade-in">
+    <div class="container">
+      <h2 class="serif-heading text-center">The Consultation Process</h2>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <h3 class="serif-heading-small">Discover</h3>
+          <p>Uncover your distinct scent personality through guided introspection.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <h3 class="serif-heading-small">Understand</h3>
+          <p>Decode your fragrance preferences, notes, and preferred projection.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <h3 class="serif-heading-small">Receive</h3>
+          <p>Get your custom scent profile and exclusive layering recommendations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Guided Questionnaire -->
+  <section id="consultation" class="quiz-section fade-in">
+    <div class="container quiz-container">
+      <div class="quiz-card">
+        
+        <!-- Progress Bar -->
+        <div class="quiz-header">
+          <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+          <div class="progress-step-text" id="step-title">Step 1: Mood & Profile</div>
+        </div>
+
+        <!-- Quiz Body -->
+        <div class="quiz-body" id="quiz-body">
+          <!-- Step 1: Mood -->
+          <div class="quiz-step active" data-step="1">
+            <h2 class="serif-heading-small text-center">Select an atmosphere that resonates with you</h2>
+            <div class="tiles-grid">
+              <div class="quiz-tile" data-value="fresh"><div class="tile-bg"></div><span>Fresh Morning</span></div>
+              <div class="quiz-tile" data-value="candlelit"><div class="tile-bg"></div><span>Candlelit Dinner</span></div>
+              <div class="quiz-tile" data-value="rainy"><div class="tile-bg"></div><span>Rainy Forest</span></div>
+              <div class="quiz-tile" data-value="lounge"><div class="tile-bg"></div><span>Luxury Lounge</span></div>
+              <div class="quiz-tile" data-value="dessert"><div class="tile-bg"></div><span>Dessert Café</span></div>
+              <div class="quiz-tile" data-value="ocean"><div class="tile-bg"></div><span>Ocean Breeze</span></div>
+            </div>
+          </div>
+
+          <!-- Step 2: Lifestyle & Projection -->
+          <div class="quiz-step" data-step="2">
+            <h2 class="serif-heading-small text-center">When will you wear this fragrance most?</h2>
+            <div class="tiles-grid lifestyle-grid">
+              <div class="quiz-tile" data-value="office"><span>Office</span></div>
+              <div class="quiz-tile" data-value="date"><span>Date Nights</span></div>
+              <div class="quiz-tile" data-value="daily"><span>Daily Casual</span></div>
+              <div class="quiz-tile" data-value="formal"><span>Formal Events</span></div>
+            </div>
+            <h2 class="serif-heading-small text-center" style="margin-top:2rem;">How noticeable should it be?</h2>
+            <div class="tiles-grid lifestyle-grid">
+              <div class="quiz-tile" data-value="skin"><span>Skin Scent</span></div>
+              <div class="quiz-tile" data-value="soft"><span>Soft Presence</span></div>
+              <div class="quiz-tile" data-value="signature"><span>Balanced Signature</span></div>
+              <div class="quiz-tile" data-value="statement"><span>Strong Statement</span></div>
+            </div>
+          </div>
+
+          <!-- Step 3: Notes -->
+          <div class="quiz-step" data-step="3">
+            <h2 class="serif-heading-small text-center">Select the notes you are drawn to</h2>
+            <div class="tiles-grid notes-grid">
+              <div class="quiz-tile" data-value="citrus"><span>Citrus</span><small>Bergamot, Lemon</small></div>
+              <div class="quiz-tile" data-value="floral"><span>Floral</span><small>Rose, Jasmine</small></div>
+              <div class="quiz-tile" data-value="woody"><span>Woody</span><small>Sandalwood, Cedar</small></div>
+              <div class="quiz-tile" data-value="musky"><span>Musky</span><small>Skin Musk, Ambrette</small></div>
+              <div class="quiz-tile" data-value="gourmand"><span>Gourmand</span><small>Vanilla, Caramel</small></div>
+              <div class="quiz-tile" data-value="spicy"><span>Spicy</span><small>Cardamom, Pepper</small></div>
+            </div>
+          </div>
+
+          <!-- Step 4: Layering -->
+          <div class="quiz-step" data-step="4">
+            <h2 class="serif-heading-small text-center">Are you open to fragrance layering?</h2>
+            <div class="tiles-grid lifestyle-grid">
+              <div class="quiz-tile" data-value="yes"><span>Yes — unique combinations</span></div>
+              <div class="quiz-tile" data-value="maybe"><span>Maybe — subtle only</span></div>
+              <div class="quiz-tile" data-value="no"><span>No — single fragrance</span></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Quiz Footer -->
+        <div class="quiz-footer">
+          <button class="btn btn-secondary" id="btn-prev" style="visibility:hidden;">Back</button>
+          <button class="btn btn-primary" id="btn-next" disabled>Next Step</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Results Reveal Section -->
+  <section id="results" class="results-section fade-in" style="display:none;">
+    <div class="container text-center">
+      <h2 class="serif-heading">Your Scent Profile</h2>
+      <h3 class="result-title">Velvet Woods & Soft Amber</h3>
+      <p class="result-desc">A sophisticated blend that balances deep, resonant woods with the intimate warmth of amber. Perfect for your curated, elegant lifestyle.</p>
+      
+      <!-- Recommended Families -->
+      <div class="families-grid">
+        <div class="family-card">
+          <h4>Woody Amber</h4>
+          <p>Sandalwood, Cedar, Amber Resin</p>
+        </div>
+        <div class="family-card">
+          <h4>Soft Floral Musk</h4>
+          <p>Skin Musk, Jasmine, Iris</p>
+        </div>
+      </div>
+
+      <!-- Pyramid -->
+      <div class="pyramid-wrapper">
+        <h3 class="serif-heading-small">Ideal Note Pyramid</h3>
+        <div class="pyramid-container">
+          <div class="pyramid-tier top"><span>Top Notes</span><small>Bergamot, Fresh Neroli</small></div>
+          <div class="pyramid-tier heart"><span>Heart Notes</span><small>Jasmine, Soft Rose</small></div>
+          <div class="pyramid-tier base"><span>Base Notes</span><small>Sandalwood, Amber</small></div>
+        </div>
+      </div>
+
+      <!-- Layering Recommendations -->
+      <h3 class="serif-heading-small" style="margin-top: 4rem;">Layering Rituals</h3>
+      <div class="layering-grid">
+        <div class="layering-card">
+          <h4>Soft Luxury Layer</h4>
+          <p>Musky lotion + Rose perfume + Sandalwood accent</p>
+        </div>
+        <div class="layering-card">
+          <h4>Evening Signature Layer</h4>
+          <p>Amber vanilla fragrance + Smoky wood accent</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 6: Fragrance Wardrobe -->
+  <section id="wardrobe" class="wardrobe-section fade-in" style="display:none;">
+    <div class="container text-center">
+      <h2 class="serif-heading">Build Your Fragrance Wardrobe</h2>
+      <div class="wardrobe-grid">
+        <div class="wardrobe-card"><div class="wardrobe-bg" style="background-image:url('https://images.unsplash.com/photo-1595562095537-814d420f5ac9?w=600')"></div><h3>Daily Clean</h3></div>
+        <div class="wardrobe-card"><div class="wardrobe-bg" style="background-image:url('https://images.unsplash.com/photo-1615397323608-250de4ee861f?w=600')"></div><h3>Signature Scent</h3></div>
+        <div class="wardrobe-card"><div class="wardrobe-bg" style="background-image:url('https://images.unsplash.com/photo-1594035910387-fea47794261f?w=600')"></div><h3>Date Night</h3></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 7: Save Your Profile -->
+  <section id="save-profile" class="save-section fade-in" style="display:none;">
+    <div class="container text-center">
+      <h2 class="serif-heading" style="color:var(--color-ivory);">Keep Your Scent Identity</h2>
+      <p style="color: rgba(247, 244, 239, 0.8); margin-bottom: 2.5rem;">Save your custom combination and recommendations.</p>
+      <div class="save-actions">
+        <button class="btn btn-primary" style="background:#fff;color:var(--color-charcoal);">Save My Profile</button>
+        <button class="btn btn-secondary btn-outline-light">Email Layering Guide</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Base Scripts -->
+  <script src="script.js"></script>
+</body>
+</html>

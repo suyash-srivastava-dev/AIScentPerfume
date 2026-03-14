@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aura Concierge — Fragrance Feel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    /* ---- Feel-page card grid ---- */
+    .card-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+
+    .feel-card {
+      position:relative; border-radius:3px; overflow:hidden; cursor:none;
+      outline:2px solid transparent; outline-offset:0;
+      transition:outline-color .3s, box-shadow .3s;
+    }
+    .feel-card:hover { box-shadow:0 16px 48px rgba(0,0,0,.25); z-index:10; }
+    .feel-card.selected { outline-color:var(--accent); outline-offset:3px; }
+
+    .fc-img-wrap {
+      position:relative; aspect-ratio:4/5; overflow:hidden;
+      transition:transform .4s cubic-bezier(.25,.46,.45,.94);
+    }
+    .feel-card:hover .fc-img-wrap { transform:scale(1.03); }
+
+    .fc-img { width:100%; height:100%; object-fit:cover; display:block;
+      filter: brightness(.82) saturate(.88); transition:filter .4s; }
+    .feel-card:hover .fc-img { filter:brightness(.65) saturate(1.1); }
+
+    .fc-img-wrap::after {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(to top, rgba(6,5,4,.85) 0%, rgba(6,5,4,.10) 40%, transparent 100%);
+      pointer-events:none;
+    }
+
+    .fc-code { position:absolute; top:13px; left:14px; z-index:3;
+      font-size:.48rem; letter-spacing:.18em; color:rgba(255,255,255,.55); }
+
+    .fc-footer { position:absolute; bottom:0; left:0; right:0; padding:16px 15px 14px; z-index:3; }
+    .fc-name  { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-style:italic;
+      color:#fff; line-height:1.1; margin-bottom:4px; }
+    .fc-trait { font-size:.48rem; letter-spacing:.18em; color:rgba(255,255,255,.55); }
+
+    .fc-select-badge {
+      position:absolute; top:11px; right:11px; z-index:4;
+      width:20px; height:20px; border-radius:50%;
+      border:1.5px solid rgba(255,255,255,.45);
+      display:grid; place-items:center;
+      transition: background .25s, border-color .25s;
+    }
+    .feel-card.selected .fc-select-badge {
+      background:var(--accent); border-color:var(--accent);
+    }
+    .feel-card.selected .fc-select-badge::after { content:'✓'; font-size:.6rem; color:#fff; }
+
+    @media(max-width:860px){ .card-grid { grid-template-columns:repeat(2,1fr); } }
+    @media(max-width:540px){ .card-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- HEADER -->
+<header class="shared-header">
+  <div class="hdr-brand">
+    <span class="hdr-brand-name">Aura Discovery</span>
+    <span class="hdr-brand-sub">SCENT DNA ANALYSIS ▪ PHASE 01</span>
+  </div>
+  <div class="hdr-right">
+    <span class="hdr-section-label">PREFERENCES</span>
+    <span class="hdr-step">STEP <strong>02 / 04</strong></span>
+    <button class="hdr-close" onclick="window.location.href='preferences.html'">✕</button>
+  </div>
+</header>
+
+<!-- BREADCRUMB -->
+<nav class="shared-breadcrumb">
+  <div class="bc-inner">
+    <div class="bc-steps">
+      <span class="bc-step done">01. PROFILE</span>
+      <span class="bc-sep">/</span>
+      <span class="bc-step active">02. PREFERENCES</span>
+      <span class="bc-sep">/</span>
+      <span class="bc-step">03. NOTES</span>
+      <span class="bc-sep">/</span>
+      <span class="bc-step">04. LAYERING</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:18px">
+      <div class="substep-indicator">
+        <span class="substep-dot done"></span>
+        <span class="substep-dot active"></span>
+        <span class="substep-dot"></span>
+        <span class="substep-dot"></span>
+      </div>
+      <div class="bc-progress">
+        CALIBRATION PROGRESS
+        <span class="bc-progress-pct" id="progress-pct">50%</span>
+        <div class="bc-track"><div class="bc-fill" id="progress-fill" style="width:50%"></div></div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="page-main">
+  <div class="page-intro">
+    <h1 class="page-question">How do you want your<br>fragrance to feel?</h1>
+    <p class="page-hint">Select the atmosphere that resonates with your personal style.</p>
+  </div>
+
+  <div class="card-grid" id="card-grid">
+
+    <div class="feel-card" data-label="Morning Dew" data-mood="Fresh Morning">
+      <div class="fc-img-wrap">
+        <img src="assets/feel/morning_dew.png" alt="Morning Dew" class="fc-img">
+      </div>
+      <span class="fc-code">01. FRESH AND CRISP</span>
+      <div class="fc-footer">
+        <h3 class="fc-name">Morning Dew</h3>
+        <p class="fc-trait">CITRUSY &amp; INVIGORATING</p>
+      </div>
+      <span class="fc-select-badge"></span>
+    </div>
+
+    <div class="feel-card" data-label="Silk Sheets" data-mood="Fresh Morning">
+      <div class="fc-img-wrap">
+        <img src="assets/feel/silk_sheets.png" alt="Silk Sheets" class="fc-img">
+      </div>
+      <span class="fc-code">02. SOFT AND COMFORTING</span>
+      <div class="fc-footer">
+        <h3 class="fc-name">Silk Sheets</h3>
+        <p class="fc-trait">POWDERY &amp; INTIMATE</p>
+      </div>
+      <span class="fc-select-badge"></span>
+    </div>
+
+    <div class="feel-card" data-label="Velvet Peony" data-mood="Fresh Morning">
+      <div class="fc-img-wrap">
+        <img src="assets/feel/velvet_peony.png" alt="Velvet Peony" class="fc-img">
+      </div>
+      <span class="fc-code">03. ELEGANT AND FLORAL</span>
+      <div class="fc-footer">
+        <h3 class="fc-name">Velvet Peony</h3>
+        <p class="fc-trait">SOPHISTICATED &amp; TIMELESS</p>
+      </div>
+      <span class="fc-select-badge"></span>
+    </div>
+
+    <div class="feel-card" data-label="Midnight Smoke" data-mood="Luxury Lounge">
+      <div class="fc-img-wrap">
+        <img src="assets/feel/midnight_smoke.png" alt="Midnight Smoke" class="fc-img">
+      </div>
+      <span class="fc-code">04. MYSTERIOUS AND DARK</span>
+      <div class="fc-footer">
+        <h3 class="fc-name">Midnight Smoke</h3>
+        <p class="fc-trait">WOODY &amp; ENIGMATIC</p>
+      </div>
+      <span class="fc-select-badge"></span>
+    </div>
+
+    <div class="feel-card" data-label="Amber Glow" data-mood="Candlelit Dinner">
+      <div class="fc-img-wrap">
+        <img src="assets/feel/amber_glow.png" alt="Amber Glow" class="fc-img">
+      </div>
+      <span class="fc-code">05. WARM AND SENSUAL</span>
+      <div class="fc-footer">
+        <h3 class="fc-name">Amber Glow</h3>
+        <p class="fc-trait">SPICY &amp; ALLURING</p>
+      </div>
+      <span class="fc-select-badge"></span>
+    </div>
+
+    <div class="feel-card" data-label="Cacao Noir" data-mood="Candlelit Dinner">
+      <div class="fc-img-wrap">
+        <img src="assets/feel/cacao_noir.png" alt="Cacao Noir" class="fc-img">
+      </div>
+      <span class="fc-code">06. RICH AND DENSE</span>
+      <div class="fc-footer">
+        <h3 class="fc-name">Cacao Noir</h3>
+        <p class="fc-trait">GOURMAND &amp; DECADENT</p>
+      </div>
+      <span class="fc-select-badge"></span>
+    </div>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="shared-footer">
+  <button class="footer-btn footer-btn--ghost" onclick="window.location.href='preferences.html'">
+    ← BACK TO PROFILE
+  </button>
+  <div class="footer-status">
+    <span class="status-dot" id="status-dot"></span>
+    <span id="status-text">AWAITING SELECTION</span>
+  </div>
+  <button class="footer-btn footer-btn--primary" id="continue-btn" onclick="goNext()">
+    CONFIRM &amp; CONTINUE →
+  </button>
+</footer>
+
+<script>
+  // Cursor
+  const dot=document.getElementById('cursor-dot'), ring=document.getElementById('cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.transform=`translate(${mx}px,${my}px)`;});
+  (function anim(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(anim);})();
+
+  // Card hover scale cursor
+  let selected=null;
+  document.querySelectorAll('.feel-card').forEach(c=>{
+    c.addEventListener('mouseenter',()=>{ring.style.width='56px';ring.style.height='56px';});
+    c.addEventListener('mouseleave',()=>{ring.style.width='38px';ring.style.height='38px';});
+    c.addEventListener('click',()=>{
+      if(selected&&selected!==c) selected.classList.remove('selected');
+      c.classList.toggle('selected');
+      selected=c.classList.contains('selected')?c:null;
+      const btn=document.getElementById('continue-btn');
+      const dot2=document.getElementById('status-dot');
+      const txt=document.getElementById('status-text');
+      if(selected){ btn.classList.add('ready'); dot2.classList.add('active'); txt.textContent='PREFERENCE CHOICE READY'; }
+      else { btn.classList.remove('ready'); dot2.classList.remove('active'); txt.textContent='AWAITING SELECTION'; }
+    });
+  });
+
+  function goNext(){
+    if(!selected) return;
+    sessionStorage.setItem('fragFeel', selected.dataset.label);
+    window.location.href='scent_family.html';
+  }
+
+  // Entrance
+  document.querySelectorAll('.feel-card').forEach((c,i)=>{
+    c.style.animation=`fadeUp .5s ease ${120+i*70}ms both`;
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+/* ============================================
+   AURA CONCIERGE — Shared Layout (header + breadcrumb + footer)
+   shared.css — import this in every preference page
+   ============================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #f0ece4;
+  --text:      #1a1a18;
+  --muted:     #6b6860;
+  --accent:    #c9a84c;
+  --border:    rgba(0,0,0,0.10);
+  --header-h:  64px;
+  --bc-h:      50px;
+  --footer-h:  72px;
+}
+
+html, body {
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Space Mono', monospace;
+  cursor: none;
+  overflow-x: hidden;
+}
+
+/* ---- CURSOR ---- */
+.cursor-dot, .cursor-ring {
+  position: fixed; top: 0; left: 0;
+  pointer-events: none; z-index: 9999;
+  border-radius: 50%;
+  transition: width .2s ease, height .2s ease;
+}
+.cursor-dot  { width:6px; height:6px; background:var(--accent); transform:translate(-50%,-50%); }
+.cursor-ring { width:38px; height:38px; border:1.5px solid var(--accent); transform:translate(-50%,-50%); mix-blend-mode:multiply; }
+
+/* ---- HEADER ---- */
+.shared-header {
+  height: var(--header-h);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 44px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky; top: 0; z-index: 200;
+}
+.hdr-brand { display:flex; flex-direction:column; gap:2px; }
+.hdr-brand-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; font-weight: 600; letter-spacing:.02em;
+}
+.hdr-brand-sub { font-size:.52rem; letter-spacing:.14em; color:var(--muted); }
+.hdr-right { display:flex; align-items:center; gap:28px; }
+.hdr-section-label {
+  font-size:.55rem; letter-spacing:.18em; color:var(--accent); font-weight:700;
+}
+.hdr-step {
+  font-size:.58rem; letter-spacing:.12em; color:var(--muted);
+}
+.hdr-step strong { color:var(--text); }
+.hdr-close {
+  width:30px; height:30px;
+  border:1px solid var(--border); background:transparent;
+  color:var(--text); border-radius:50%;
+  font-size:.7rem; cursor:none;
+  display:grid; place-items:center;
+  transition: background .2s, color .2s;
+}
+.hdr-close:hover { background:var(--text); color:var(--bg); }
+
+/* ---- BREADCRUMB ---- */
+.shared-breadcrumb {
+  height: var(--bc-h);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky; top: var(--header-h); z-index: 190;
+}
+.bc-inner {
+  max-width: 1180px; margin: 0 auto; height: 100%;
+  padding: 0 44px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.bc-steps { display:flex; align-items:center; gap:8px; }
+.bc-step  { font-size:.57rem; letter-spacing:.14em; color:var(--muted); transition:color .3s; }
+.bc-step.done   { color: var(--accent); }
+.bc-step.active { color: var(--text); font-weight:700; border-bottom:1.5px solid var(--text); padding-bottom:2px; }
+.bc-sep  { font-size:.52rem; color:rgba(0,0,0,.18); }
+.bc-progress { display:flex; align-items:center; gap:10px; font-size:.55rem; letter-spacing:.12em; color:var(--muted); }
+.bc-progress-pct { color:var(--accent); font-weight:700; min-width:30px; }
+.bc-track { width:110px; height:2px; background:var(--border); border-radius:1px; overflow:hidden; }
+.bc-fill  { height:100%; background:var(--accent); width:0%; transition:width .5s cubic-bezier(.25,.46,.45,.94); }
+
+/* ---- SUB-STEP MINI INDICATOR (inside PREFERENCES) ---- */
+.substep-indicator {
+  display: flex; gap: 6px; align-items: center;
+}
+.substep-dot {
+  width:6px; height:6px; border-radius:50%;
+  background: var(--border);
+  border: 1px solid var(--muted);
+  transition: background .3s;
+}
+.substep-dot.active { background: var(--accent); border-color: var(--accent); }
+.substep-dot.done   { background: var(--muted);  border-color: var(--muted); }
+
+/* ---- SHARED FOOTER ---- */
+.shared-footer {
+  position: fixed; bottom:0; left:0; right:0;
+  height: var(--footer-h);
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  display: flex; align-items:center; justify-content:space-between;
+  padding: 0 44px; z-index: 200;
+}
+.footer-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: .6rem; letter-spacing:.14em;
+  padding: 12px 22px; border-radius:2px;
+  cursor: none; border: none;
+  transition: all .22s ease;
+}
+.footer-btn--ghost {
+  background: transparent; color:var(--muted);
+  border: 1px solid var(--border);
+}
+.footer-btn--ghost:hover { color:var(--text); border-color:var(--text); }
+.footer-btn--primary {
+  background: var(--accent); color:#fff;
+  opacity: .4; pointer-events:none; letter-spacing:.12em;
+}
+.footer-btn--primary.ready { opacity:1; pointer-events:auto; }
+.footer-btn--primary.ready:hover { background:#a8872a; transform:translateX(2px); }
+.footer-status { display:flex; align-items:center; gap:8px; font-size:.55rem; letter-spacing:.14em; color:var(--muted); }
+.status-dot { width:7px; height:7px; border-radius:50%; background:var(--muted); transition:background .4s; }
+.status-dot.active { background:var(--accent); box-shadow:0 0 8px var(--accent); animation:blink 1.8s infinite; }
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.45} }
+
+/* ---- PAGE MAIN WRAPPER ---- */
+.page-main {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 56px 44px calc(var(--footer-h) + 40px);
+}
+.page-intro { text-align:center; margin-bottom:50px; }
+.page-question {
+  font-family:'Cormorant Garamond',serif;
+  font-size: clamp(2rem,4vw,2.9rem);
+  font-weight: 400; line-height:1.2;
+  font-style: italic; letter-spacing:-.01em;
+  margin-bottom: 14px;
+}
+.page-hint {
+  font-family:'Space Mono',monospace; font-style:italic;
+  font-size:.67rem; letter-spacing:.06em; color:var(--muted);
+}
+
+/* ---- SHARED CURSOR JS (inline) ---- */
+/* See cursor-init() in each page's script */
+
+/* ---- FADE-IN CARD ANIMATION ---- */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(24px); }
+  to   { opacity:1; transform:translateY(0); }
+}

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aura Concierge — Scent Family</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    .sf-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+
+    .sf-card {
+      background:#fff; padding:16px; border:1px solid var(--border);
+      border-radius:2px; cursor:none; position:relative;
+      display:flex; flex-direction:column;
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+    }
+    .sf-card:hover { border-color:var(--text); transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,.08); }
+    .sf-card.selected {
+      background:#111; border-color:#111; color:#fff;
+      transform:translateY(-8px) scale(1.02);
+      box-shadow: 0 0 0 2px var(--accent), 0 20px 40px rgba(0,0,0,.15);
+    }
+
+    .sf-img-wrap {
+      width:100%; aspect-ratio:1; overflow:hidden; margin-bottom:16px;
+      background:#f8f8f8;
+    }
+    .sf-img { width:100%; height:100%; object-fit:cover; mix-blend-mode:multiply; transition:filter .3s; }
+    .sf-card.selected .sf-img { filter:brightness(0.9); mix-blend-mode:normal; }
+
+    .sf-num { font-size:.48rem; letter-spacing:.18em; color:var(--muted); margin-bottom:8px; }
+    .sf-card.selected .sf-num { color:var(--accent); }
+
+    .sf-title { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-style:italic; margin-bottom:24px; }
+
+    .sf-bottom {
+      margin-top:auto; border-top:1px solid var(--border);
+      padding-top:16px; display:flex; justify-content:space-between; align-items:center;
+    }
+    .sf-card.selected .sf-bottom { border-top-color:rgba(255,255,255,.1); }
+
+    .sf-action { font-size:.45rem; letter-spacing:.18em; color:var(--muted); }
+    .sf-card.selected .sf-action { color:var(--accent); }
+
+    .sf-check { width:10px; height:10px; background:var(--border); transition:background .3s; }
+    .sf-card.selected .sf-check { background:var(--accent); }
+
+    .badge-icon {
+      position:absolute; top:8px; right:8px; width:18px; height:18px;
+      background:var(--accent); border-radius:50%; display:grid; place-items:center;
+      opacity:0; transform:scale(0); transition:all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .badge-icon::after { content:'✓'; color:#fff; font-size:.5rem; }
+    .sf-card.selected .badge-icon { opacity:1; transform:scale(1); }
+
+    @media(max-width:900px){ .sf-grid { grid-template-columns:repeat(2,1fr); } }
+    @media(max-width:540px){ .sf-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<header class="shared-header">
+  <div class="hdr-brand">
+    <span class="hdr-brand-name">Aura Concierge</span>
+    <span class="hdr-brand-sub">GUIDED CONSULTATION ▪ SECTION B</span>
+  </div>
+  <div class="hdr-right">
+    <span class="hdr-step">STEP <strong>02 / 04</strong></span>
+    <button class="hdr-close" onclick="window.location.href='index.html'">✕</button>
+  </div>
+</header>
+
+<nav class="shared-breadcrumb">
+  <div class="bc-inner">
+    <div class="bc-steps">
+      <span class="bc-step done">01. PROFILE</span>
+      <span class="bc-sep">/</span>
+      <span class="bc-step active">02. PREFERENCES</span>
+      <span class="bc-sep">/</span>
+      <span class="bc-step">03. NOTES</span>
+      <span class="bc-sep">/</span>
+      <span class="bc-step">04. LAYERING</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:18px">
+      <div class="substep-indicator">
+        <span class="substep-dot done"></span>
+        <span class="substep-dot done"></span>
+        <span class="substep-dot active"></span>
+        <span class="substep-dot"></span>
+      </div>
+      <div class="bc-progress">
+        FINAL CALIBRATION
+        <span class="bc-progress-pct" id="progress-pct">75%</span>
+        <div class="bc-track"><div class="bc-fill" id="progress-fill" style="width:75%"></div></div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="page-main">
+  <div class="page-intro" style="text-align:left;">
+    <h1 class="page-question" style="font-size:3.5rem;">Scent family affinity.</h1>
+    <p class="page-hint" style="font-size:.85rem;font-style:normal;">Select the primary notes that define your olfactory signature.</p>
+  </div>
+
+  <div class="sf-grid" id="card-grid">
+
+    <div class="sf-card" data-val="Citrus">
+      <div class="badge-icon"></div>
+      <div class="sf-img-wrap"><img src="assets/scent/citrus.png" alt="Citrus" class="sf-img"></div>
+      <div class="sf-num">01. CITRUS</div>
+      <div class="sf-title">Bergamot &amp; Lemon</div>
+      <div class="sf-bottom">
+        <span class="sf-action">SELECT</span>
+        <div class="sf-check"></div>
+      </div>
+    </div>
+
+    <div class="sf-card" data-val="Floral">
+      <div class="badge-icon"></div>
+      <div class="sf-img-wrap"><img src="assets/scent/floral.png" alt="Floral" class="sf-img"></div>
+      <div class="sf-num">02. FLORAL</div>
+      <div class="sf-title">Rose &amp; Jasmine</div>
+      <div class="sf-bottom">
+        <span class="sf-action">SELECT</span>
+        <div class="sf-check"></div>
+      </div>
+    </div>
+
+    <div class="sf-card" data-val="Woody">
+      <div class="badge-icon"></div>
+      <div class="sf-img-wrap" style="background:#e8d1b8;"><img src="assets/scent/woody.png" alt="Woody" class="sf-img"></div>
+      <div class="sf-num">03. WOODY</div>
+      <div class="sf-title">Sandalwood &amp; Cedar</div>
+      <div class="sf-bottom">
+        <span class="sf-action">SELECT</span>
+        <div class="sf-check"></div>
+      </div>
+    </div>
+
+    <div class="sf-card" data-val="Gourmand">
+      <div class="badge-icon"></div>
+      <div class="sf-img-wrap" style="background:#d9b897;"><img src="assets/scent/gourmand.png" alt="Gourmand" class="sf-img"></div>
+      <div class="sf-num">04. GOURMAND</div>
+      <div class="sf-title">Vanilla &amp; Tonka</div>
+      <div class="sf-bottom">
+        <span class="sf-action">SELECT</span>
+        <div class="sf-check"></div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="shared-footer" style="padding-top:20px;padding-bottom:20px;height:auto;flex-direction:column;gap:30px">
+  <div style="width:100%;display:flex;justify-content:space-between;align-items:center;">
+    <button class="footer-btn footer-btn--ghost" onclick="window.history.back()">
+      ← BACK TO PROFILE
+    </button>
+    <div class="footer-status">
+      <span class="status-dot" id="status-dot"></span>
+      <span id="status-text">AWAITING SELECTION</span>
+    </div>
+    <button class="footer-btn footer-btn--primary" id="continue-btn" onclick="goNext()">
+      CONFIRM &amp; PROCEED →
+    </button>
+  </div>
+  <div style="text-align:center;">
+    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--muted);font-size:.9rem;margin-bottom:12px;">"Fragrance is the invisible garment that speaks when we are silent."</p>
+    <div style="font-size:.45rem;letter-spacing:.18em;color:rgba(0,0,0,.3);display:flex;gap:20px;justify-content:center;">
+      <span>AURA &copy; 2026 LAB SERVICES</span>
+      <span>SAFETY DATA SHEET</span>
+      <span>ORIGIN PROTOCOL</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Cursor
+  const dot=document.getElementById('cursor-dot'), ring=document.getElementById('cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.transform=`translate(${mx}px,${my}px)`;});
+  (function anim(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(anim);})();
+
+  let selected=null;
+  document.querySelectorAll('.sf-card').forEach(c=>{
+    c.addEventListener('mouseenter',()=>{ring.style.width='56px';ring.style.height='56px';});
+    c.addEventListener('mouseleave',()=>{ring.style.width='38px';ring.style.height='38px';});
+    c.addEventListener('click',()=>{
+      if(selected&&selected!==c){
+        selected.classList.remove('selected');
+        selected.querySelector('.sf-action').textContent='SELECT';
+      }
+      c.classList.toggle('selected');
+      selected=c.classList.contains('selected')?c:null;
+      
+      if(selected) c.querySelector('.sf-action').textContent='SELECTED';
+      else c.querySelector('.sf-action').textContent='SELECT';
+
+      const btn=document.getElementById('continue-btn');
+      const dot2=document.getElementById('status-dot');
+      const txt=document.getElementById('status-text');
+      if(selected){ btn.classList.add('ready'); dot2.classList.add('active'); txt.textContent='ANALYSIS SYSTEM CALIBRATED'; }
+      else { btn.classList.remove('ready'); dot2.classList.remove('active'); txt.textContent='AWAITING SELECTION'; }
+    });
+  });
+
+  function goNext(){
+    if(!selected) return;
+    sessionStorage.setItem('scentFamily', selected.dataset.val);
+    window.location.href='materials.html';
+  }
+
+  document.querySelectorAll('.sf-card').forEach((c,i)=>{
+    c.style.animation=`fadeUp .5s ease ${120+i*70}ms both`;
+  });
+</script>
+</body>
+</html>

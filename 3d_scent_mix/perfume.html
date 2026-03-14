@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Élixir Paris | Aura Collection</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #1a1a1a;
+            --bg: #fdfbf7;
+            --surface: #ffffff;
+            --accent: #d4af37;
+            --text-muted: #666;
+            --border: #e8e6e1;
+            --ui-width: 480px;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Jost', sans-serif;
+            background-color: var(--bg);
+            color: var(--primary);
+            display: flex;
+        }
+
+        /* FIX 1: Confine the canvas to the left side of the screen 
+           so the bottle automatically centers perfectly in the viewable area. 
+        */
+        #canvas-container {
+            width: calc(100vw - var(--ui-width));
+            height: 100vh;
+            position: relative;
+            background: radial-gradient(circle at center, #ffffff 0%, #fdfbf7 100%);
+        }
+
+        #store-ui {
+            width: var(--ui-width);
+            height: 100vh;
+            background: var(--surface);
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            overflow-y: auto;
+            z-index: 2;
+        }
+
+        .brand-header {
+            padding: 2.5rem 3rem 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            letter-spacing: 0.25em;
+            margin: 0;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .product-details {
+            padding: 2.5rem 3rem;
+            flex-grow: 1;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin: 0 0 1rem 0;
+            line-height: 1.2;
+        }
+
+        .description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+        }
+
+        .control-group {
+            margin-bottom: 2.5rem;
+        }
+
+        .control-group h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Shape Buttons (Matches your screenshot) */
+        .options-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .shape-btn {
+            flex: 1;
+            padding: 12px 0;
+            border: 1px solid var(--border);
+            background: #fff;
+            cursor: pointer;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            transition: all 0.2s ease;
+            border-radius: 4px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .shape-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .shape-btn:hover:not(.active) {
+            border-color: #ccc;
+        }
+
+        /* Mood Tiles Grid */
+        .mood-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .mood-tile {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            overflow: hidden;
+        }
+
+        .mood-tile:hover {
+            border-color: #bbb;
+        }
+
+        .mood-tile.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 1px var(--accent);
+        }
+
+        /* Subtle glow based on mood color */
+        .mood-tile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--tile-color);
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        .mood-tile.active::before {
+            opacity: 1;
+        }
+
+        .mood-icon {
+            font-size: 1.2rem;
+            margin-right: 12px;
+        }
+
+        .mood-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mood-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+
+            #canvas-container {
+                width: 100vw;
+                height: 50vh;
+            }
+
+            #store-ui {
+                width: 100vw;
+                height: 50vh;
+                border-left: none;
+                border-top: 1px solid var(--border);
+            }
+        }
+    </style>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <div id="canvas-container"></div>
+
+    <div id="store-ui">
+        <div class="brand-header">
+            <h2>L'Élixir Paris</h2>
+        </div>
+
+        <div class="product-details">
+            <h1>Aura Collection</h1>
+            <p class="description">Tailor your sensory experience. Select your vessel and infuse it with a suspended,
+                diffused essence perfectly matched to your desired ambiance.</p>
+
+            <div class="control-group">
+                <h3>1. Vessel Silhouette</h3>
+                <div class="options-row" id="shape-options">
+                    <button class="shape-btn active" data-shape="classic">Classic</button>
+                    <button class="shape-btn" data-shape="prism">Prism</button>
+                    <button class="shape-btn" data-shape="sphere">Orb</button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h3>2. Ambiance & Essence (Gas Effect)</h3>
+                <div class="mood-grid" id="mood-options">
+                    <div class="mood-tile active" style="--tile-color: #ffb700;" data-color="#ffb700">
+                        <span class="mood-icon">🌅</span>
+                        <div class="mood-info"><span class="mood-name">Fresh Morning</span></div>
+                    </div>
+                    <div class="mood-tile" style="--tile-color: #ff8c00;" data-color="#ff6a00">
+                        <span class="mood-icon">🕯️</span>
+                        <div class="mood-info"><span class="mood-name">Candlelit Dinner</span></div>
+                    </div>
+                    <div class="mood-tile" style="--tile-color: #2e8b57;" data-color="#2e8b57">
+                        <span class="mood-icon">🌲</span>
+                        <div class="mood-info"><span class="mood-name">Rainy Forest</span></div>
+                    </div>
+                    <div class="mood-tile" style="--tile-color: #8a2be2;" data-color="#8a2be2">
+                        <span class="mood-icon">🍷</span>
+                        <div class="mood-info"><span class="mood-name">Luxury Lounge</span></div>
+                    </div>
+                    <div class="mood-tile" style="--tile-color: #ffb6c1;" data-color="#ffb6c1">
+                        <span class="mood-icon">🍰</span>
+                        <div class="mood-info"><span class="mood-name">Dessert Café</span></div>
+                    </div>
+                    <div class="mood-tile" style="--tile-color: #00ced1;" data-color="#00ced1">
+                        <span class="mood-icon">🌊</span>
+                        <div class="mood-info"><span class="mood-name">Ocean Breeze</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+        import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+
+        // --- Container Setup ---
+        const container = document.getElementById('canvas-container');
+        let canvasWidth = container.clientWidth;
+        let canvasHeight = container.clientHeight;
+
+        // --- Scene Setup ---
+        const scene = new THREE.Scene();
+
+        const camera = new THREE.PerspectiveCamera(40, canvasWidth / canvasHeight, 0.1, 100);
+        camera.position.set(0, 2.5, 7); // Center X to 0
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(canvasWidth, canvasHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.0;
+        container.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.minDistance = 4;
+        controls.maxDistance = 10;
+        controls.maxPolarAngle = Math.PI / 2 + 0.1;
+        controls.target.set(0, 1.5, 0); // Center X to 0
+
+        // --- Environment for Glass Reflections ---
+        const pmremGenerator = new THREE.PMREMGenerator(renderer);
+        scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+        scene.add(ambientLight);
+        const dirLight = new THREE.DirectionalLight(0xffffff, 2);
+        dirLight.position.set(5, 5, 4);
+        scene.add(dirLight);
+
+        // --- Materials ---
+
+        // FIX 2: Outer Glass. Needs transmission, but MUST let standard transparent objects show through.
+        const glassMaterial = new THREE.MeshPhysicalMaterial({
+            color: 0xffffff,
+            metalness: 0.1,
+            roughness: 0.05,
+            transmission: 1.0,
+            ior: 1.5,
+            thickness: 1.5,
+            transparent: true, // Crucial for seeing the inner gas properly
+            side: THREE.FrontSide
+        });
+
+        // FIX 3: Inner Gas. Using StandardMaterial with opacity instead of Physical transmission. 
+        // This prevents the rendering engine from hiding it behind the glass.
+        const gasMaterial = new THREE.MeshStandardMaterial({
+            color: new THREE.Color('#ffb700'),
+            roughness: 1.0,
+            transparent: true,
+            opacity: 0.75, // Gives it a cloudy, diffused look
+            emissive: new THREE.Color('#ffb700'),
+            emissiveIntensity: 0.15 // Adds a subtle inner glow
+        });
+
+        const capMaterial = new THREE.MeshStandardMaterial({
+            color: 0x111111, metalness: 0.2, roughness: 0.8
+        });
+
+        // --- Bottle Construction ---
+        const perfumeGroup = new THREE.Group();
+        perfumeGroup.position.set(0, 0, 0); // Centered in the canvas
+        scene.add(perfumeGroup);
+
+        const geometries = {
+            classic: { glass: new RoundedBoxGeometry(2, 2.5, 1.2, 10, 0.2), inner: new RoundedBoxGeometry(1.8, 2.3, 1.0, 10, 0.15) },
+            prism: { glass: new THREE.CylinderGeometry(1, 1.2, 3, 6), inner: new THREE.CylinderGeometry(0.85, 1.05, 2.8, 6) },
+            sphere: { glass: new THREE.SphereGeometry(1.4, 64, 64), inner: new THREE.SphereGeometry(1.25, 64, 64) }
+        };
+
+        let currentGlass, currentGas, cap, nozzle;
+
+        function createPerfume(shapeKey) {
+            if (currentGlass) perfumeGroup.remove(currentGlass, currentGas, cap, nozzle);
+
+            const geos = geometries[shapeKey];
+            const yPos = shapeKey === 'prism' ? 1.5 : (shapeKey === 'sphere' ? 1.4 : 1.25);
+
+            // 1. Inner volume (The Gas)
+            currentGas = new THREE.Mesh(geos.inner, gasMaterial);
+            currentGas.position.y = yPos;
+            perfumeGroup.add(currentGas);
+
+            // 2. Outer Shell (The Glass)
+            currentGlass = new THREE.Mesh(geos.glass, glassMaterial);
+            currentGlass.position.y = yPos;
+            perfumeGroup.add(currentGlass);
+
+            let capY = yPos + yPos;
+
+            nozzle = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.25, 0.3, 32), new THREE.MeshStandardMaterial({ color: 0x888888, metalness: 0.8, roughness: 0.2 }));
+            nozzle.position.y = capY + 0.15;
+            perfumeGroup.add(nozzle);
+
+            cap = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 0.6, 32), capMaterial);
+            cap.position.y = capY + 0.6;
+            perfumeGroup.add(cap);
+        }
+
+        createPerfume('classic');
+
+        // --- Animation Loop ---
+        const clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime();
+
+            perfumeGroup.position.y = Math.sin(time * 1.2) * 0.04;
+            perfumeGroup.rotation.y = Math.sin(time * 0.3) * 0.10;
+
+            // Pulse the inner gas to make it look alive/cloudy
+            if (currentGas) {
+                const scaleBase = 0.98;
+                const pulse = scaleBase + Math.sin(time * 2.5) * 0.02;
+                currentGas.scale.set(pulse, pulse, pulse);
+            }
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // --- UI Interactions ---
+        // Shape Toggle
+        document.querySelectorAll('.shape-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.shape-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+
+                perfumeGroup.scale.set(0.9, 0.9, 0.9);
+                setTimeout(() => perfumeGroup.scale.set(1, 1, 1), 150);
+                createPerfume(e.target.dataset.shape);
+            });
+        });
+
+        // Mood/Gas Toggle
+        document.querySelectorAll('.mood-tile').forEach(tile => {
+            tile.addEventListener('click', (e) => {
+                document.querySelectorAll('.mood-tile').forEach(t => t.classList.remove('active'));
+                const targetTile = e.currentTarget;
+                targetTile.classList.add('active');
+
+                // Update Gas Color
+                const hexColor = targetTile.dataset.color;
+                gasMaterial.color.set(hexColor);
+                gasMaterial.emissive.set(hexColor);
+            });
+        });
+
+        // Resize Handling
+        window.addEventListener('resize', () => {
+            canvasWidth = container.clientWidth;
+            canvasHeight = container.clientHeight;
+
+            camera.aspect = canvasWidth / canvasHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(canvasWidth, canvasHeight);
+        });
+    </script>
+</body>
+
+</html>
