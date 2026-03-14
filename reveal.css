@@ -1,0 +1,505 @@
+/* ========================================================================= 
+   REVEAL.CSS
+   Styles for the "Final Olfactory Reveal / Scent Profile" page.
+   Minimalist, high-end editorial aesthetic with gold accents.
+========================================================================= */
+
+/* Typography & Base Tokens inherited from shared.css, expanding here */
+:root {
+  --bg-color: #f7f6f2; /* Light ivory */
+  --bg-card: #ffffff;
+  --bg-alt: #f1efe8; /* Slightly darker ivory for contrast boxes */
+  --bg-dark: #1a1a14;
+  
+  --text-main: #1a1a1a;
+  --text-muted: #888888;
+  --text-light: #ffffff;
+  
+  --accent-gold: #d4b86a;
+  --accent-gold-dark: #b89849;
+  --border-light: rgba(0,0,0,0.06);
+  --border-gold: rgba(212,184,106,0.5);
+  --shadow-sm: 0 4px 12px rgba(0,0,0,0.03);
+  --shadow-lg: 0 20px 40px rgba(0,0,0,0.06);
+  --shadow-gold: 0 8px 24px rgba(212,184,106,0.15);
+
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-mono: 'Space Mono', monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  
+  --radius-sm: 4px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Common Layout Utils */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 5%;
+}
+
+.section {
+  padding: 80px 0;
+}
+
+.section-title-wrap {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 2.4rem;
+  font-weight: 500;
+  margin: 0 0 10px 0;
+}
+
+.section-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin: 0;
+}
+
+/* ========================================================================= 
+   PAGE HEADER (Top Tagline)
+========================================================================= */
+.reveal-header {
+  text-align: center;
+  padding: 60px 0 40px;
+}
+.reveal-tagline {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent-gold);
+  margin-bottom: 15px;
+  display: block;
+}
+.reveal-maintitle {
+  font-family: var(--font-serif);
+  font-size: 3.5rem;
+  font-weight: 400;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+/* ========================================================================= 
+   HERO CARD (Signature Selection)
+========================================================================= */
+.hero-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  overflow: hidden;
+  margin-bottom: 80px;
+}
+
+.hero-img {
+  flex: 1.1;
+  background: #332211; /* Fallback dark amber */
+  position: relative;
+  min-height: 400px;
+}
+.hero-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* CSS Gradient fallback if image is missing */
+.hero-img-fallback {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at center, #d47a20 0%, #1a0f00 70%);
+}
+.hero-img-rings {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotateX(60deg);
+  width: 200%; height: 200%;
+  background: repeating-radial-gradient(
+    transparent,
+    transparent 10px,
+    rgba(255,200,100,0.1) 11px,
+    transparent 12px
+  );
+}
+
+.hero-content {
+  flex: 1;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.badge {
+  display: inline-block;
+  background: #fff8e8;
+  color: var(--accent-gold-dark);
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 6px 12px;
+  border-radius: 40px;
+  margin-bottom: 24px;
+  align-self: flex-start;
+  font-weight: 700;
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: 2.8rem;
+  line-height: 1.1;
+  margin: 0 0 20px 0;
+  font-weight: 400;
+}
+
+.hero-desc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #555;
+  margin: 0 0 40px 0;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.btn {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 14px 24px;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  border: 1px solid transparent;
+  font-weight: 700;
+}
+
+.btn-primary {
+  background: var(--accent-gold);
+  color: #fff;
+  box-shadow: var(--shadow-gold);
+}
+.btn-primary:hover {
+  background: var(--accent-gold-dark);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text-main);
+  border-color: var(--border-light);
+}
+.btn-outline:hover {
+  border-color: var(--text-main);
+  background: rgba(0,0,0,0.02);
+}
+
+/* ========================================================================= 
+   NOTE PYRAMID
+========================================================================= */
+.pyramid-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.note-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 40px 20px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  transition: transform 0.3s ease;
+}
+.note-card:hover { transform: translateY(-4px); }
+
+/* The Heart Note card is elevated/accented */
+.note-card.accent {
+  border: 1.5px solid var(--accent-gold);
+  padding-top: 50px;
+}
+.note-card-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent-gold);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.note-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #fffefa;
+  border: 1px solid #f0ead6;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+.note-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--accent-gold);
+}
+
+.note-level {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--accent-gold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+.note-ingredients {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.note-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ========================================================================= 
+   LAYERING RECIPES
+========================================================================= */
+.layering-box {
+  background: var(--bg-alt);
+  border-radius: var(--radius-lg);
+  padding: 50px;
+  margin-top: 80px;
+}
+
+.layering-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+}
+.layering-header .section-title { margin: 0; font-size: 1.8rem; }
+
+.link-gold {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.recipe-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.recipe-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.recipe-img {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-sm);
+  background: #e0e0e0;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.recipe-img img { width: 100%; height: 100%; object-fit: cover; }
+
+.recipe-content { flex: 1; }
+.recipe-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0 0 6px 0;
+}
+.recipe-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin: 0 0 16px 0;
+}
+
+.tag-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.tag {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: #f5f5f5;
+  color: #555;
+}
+.tag.gold {
+  background: #d4b86a;
+  color: #fff;
+}
+
+/* ========================================================================= 
+   WARDROBE
+========================================================================= */
+.wardrobe-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.wardrobe-card {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  background: #333;
+}
+.wardrobe-card img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.wardrobe-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.85) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px;
+  color: #fff;
+}
+
+.w-role {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  opacity: 0.7;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.w-name {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* ========================================================================= 
+   TECH-LUXE LABORATORY (Footer Block)
+========================================================================= */
+.lab-section {
+  padding: 0 5%;
+  margin-bottom: 0;
+}
+.lab-box {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2216 100%);
+  border-radius: var(--radius-lg);
+  padding: 80px 60px;
+  color: #fff;
+}
+
+.lab-title {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-weight: 400;
+  margin: 0 0 16px 0;
+}
+.lab-desc {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.6);
+  max-width: 500px;
+  line-height: 1.6;
+  margin: 0 0 40px 0;
+}
+
+.lab-form {
+  display: flex;
+  gap: 16px;
+  max-width: 500px;
+}
+.lab-input {
+  flex: 1;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 40px;
+  padding: 0 24px;
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.lab-input:focus { border-color: var(--accent-gold); }
+.lab-input::placeholder { color: rgba(255,255,255,0.3); }
+
+/* ========================================================================= 
+   SITE FOOTER
+========================================================================= */
+.site-footer {
+  text-align: center;
+  padding: 60px 0;
+}
+.footer-brand {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.footer-brand svg { width: 14px; height: 14px; fill: var(--accent-gold); }
+
+/* Grid Fallbacks for image quotas */
+.bg-warm { background: #4a3320 !important; }
+.bg-light { background: #e0d8cc !important; }
+.bg-dark { background: #111 !important; }
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .hero-card { flex-direction: column; }
+  .hero-img { min-height: 300px; }
+  .pyramid-grid, .recipe-grid, .wardrobe-grid { grid-template-columns: 1fr; }
+  .layering-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .lab-form { flex-direction: column; }
+}

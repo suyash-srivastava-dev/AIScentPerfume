@@ -3,23 +3,77 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aura Concierge - Scent Journey</title>
-  
+  <title>Alter Atelier — Scent Journey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="shared.css">
-  <link rel="stylesheet" href="style.css">
-  
-  <!-- ES Module Import Map for Three.js -->
-  <script type="importmap">
-    {
-      "imports": {
-        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-      }
+  <style>
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+      overflow: hidden;
     }
-  </script>
-
-  <!-- GSAP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    .landing-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4.5rem;
+      font-weight: 300;
+      margin-bottom: 24px;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards 0.5s;
+    }
+    .landing-subtitle {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      color: var(--muted);
+      margin-bottom: 70px;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards 1s;
+    }
+    .btn-start {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 18px 48px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      cursor: none; /* for custom cursor */
+      transition: all 0.4s ease;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards 1.5s;
+    }
+    .btn-start:hover {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+    .btn-start svg {
+      width: 14px;
+      height: 14px;
+      transition: transform 0.3s ease;
+    }
+    .btn-start:hover svg {
+      transform: translateX(4px);
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+  </style>
 </head>
 <body>
 
@@ -27,157 +81,38 @@
   <div class="cursor-dot" id="cursor-dot"></div>
   <div class="cursor-ring" id="cursor-ring"></div>
 
-  <header class="shared-header" style="position:relative; z-index: 100;">
-    <div class="hdr-brand">
-      <span class="hdr-brand-name">Aura Concierge</span>
-      <span class="hdr-brand-sub">SCENT DNA ANALYSIS ▪ V.02.4.1</span>
-    </div>
-    <div class="hdr-right">
-      <span class="hdr-step">STEP <strong>02 / 05</strong></span>
-      <span class="hdr-step">SESSION ID <strong style="color:var(--text);">AU-892-X</strong></span>
-    </div>
-  </header>
+  <h1 class="landing-title">Alter Atelier</h1>
+  <div class="landing-subtitle">Discover Your Olfactory Identity</div>
+  
+  <a href="preferences.html" class="btn-start" id="start-btn">
+    BEGIN CONSULTATION
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </a>
 
-  <main class="dashboard">
-    
-    <!-- Left Sidebar: Selection -->
-    <aside class="sidebar-left">
-      <h2 class="section-title">ATMOSPHERE SELECTION</h2>
-      
-      <div class="atmosphere-list" id="atmosphere-options">
-        
-        <div class="atm-option active" data-color="#a8e6a3" data-label="Fresh Morning">
-          <div class="atm-num">01. FRESH MORNING</div>
-          <div class="atm-desc">Dewy, Crisp, Clean</div>
-          <div class="atm-progress"><div class="atm-fill" style="width: 40%"></div></div>
-        </div>
-
-        <div class="atm-option" data-color="#ffb700" data-label="Candlelit Dinner">
-          <div class="atm-num">02. CANDLELIT DINNER</div>
-          <div class="atm-desc">Warm, Spicy, Alluring</div>
-          <div class="atm-progress"><div class="atm-fill" style="width: 75%"></div></div>
-        </div>
-
-        <div class="atm-option" data-color="#2e8b57" data-label="Rainy Forest">
-          <div class="atm-num">03. RAINY FOREST</div>
-          <div class="atm-desc">Earthy, Mossy, Wet Wood</div>
-          <div class="atm-progress"><div class="atm-fill" style="width: 60%"></div></div>
-        </div>
-
-        <div class="atm-option" data-color="#8a2be2" data-label="Luxury Lounge">
-          <div class="atm-num">04. LUXURY LOUNGE</div>
-          <div class="atm-desc">Velvet, Leather, Amber</div>
-          <div class="atm-progress"><div class="atm-fill" style="width: 85%"></div></div>
-        </div>
-
-      </div>
-
-      <div class="status-box">
-        <div class="status-row">
-          <span>MOLECULAR SYNTHESIS</span>
-          <span class="status-active">IN PROGRESS</span>
-        </div>
-        <div class="status-bar"><div class="status-fill" id="synthesis-fill"></div></div>
-        <div class="status-row mt-2">
-          <span>STABILITY ALPHA</span>
-          <span id="stability-val">0.822</span>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Center: 3D Visualization -->
-    <section class="center-stage">
-      <div class="vis-header">
-        <div class="vis-subtitle">VISUALIZATION ACTIVE</div>
-        <h2 class="vis-title" id="vis-title">Fresh Morning</h2>
-        <div class="vis-meta">REFRACTIVE INDEX: <span id="refractive-idx">1.34</span></div>
-      </div>
-
-      <!-- 3D Canvas Container -->
-      <div id="canvas-container"></div>
-
-
-      <div class="vis-footer">INTERACTIVE 3D PREVIEW</div>
-    </section>
-
-    <!-- Right Sidebar: Notes & Actions -->
-    <aside class="sidebar-right">
-      
-      <div class="notes-composition">
-        <h2 class="notes-title">NOTES COMPOSITION</h2>
-        
-        <div class="note-layer">
-          <div class="note-level">TOP NOTE</div>
-          <div class="note-row">
-             <div class="note-name" id="top-note-name">Bergamot</div>
-             <div class="note-trait" id="top-note-trait">Crisp</div>
-          </div>
-        </div>
-
-        <div class="note-layer">
-          <div class="note-level">HEART NOTE</div>
-          <div class="note-row">
-             <div class="note-name" id="heart-note-name">White Tea</div>
-             <div class="note-trait" id="heart-note-trait">Delicate</div>
-          </div>
-        </div>
-
-        <div class="note-layer">
-          <div class="note-level">BASE NOTE</div>
-          <div class="note-row">
-             <div class="note-name" id="base-note-name">Clean Musk</div>
-             <div class="note-trait" id="base-note-trait">Soft</div>
-          </div>
-        </div>
-      </div>
-
-      <button class="btn btn-dark" id="btn-confirm">
-        CONFIRM & PROCEED <span class="arrow">→</span>
-      </button>
-      <button class="btn btn-light" id="btn-back" onclick="window.location.href='preferences.html'">
-        ← BACK TO PREFERENCES
-      </button>
-
-      <div class="system-status">
-        <div class="status-indicator"></div>
-        <span>SYSTEM CALIBRATED TO ROOM TEMPERATURE</span>
-      </div>
-
-    </aside>
-
-  <!-- Run script directly without local server -->
-  <script src="script.js"></script>
-
-  <!-- Apply mood from preference selection -->
   <script>
     // Cursor handling
-    const dot=document.getElementById('cursor-dot'), ring=document.getElementById('cursor-ring');
-    let mx=0,my=0,rx=0,ry=0;
-    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.transform=`translate(${mx}px,${my}px)`;});
-    (function anim(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(anim);})();
-    document.querySelectorAll('button, .atm-option').forEach(el => {
-        el.addEventListener('mouseenter', () => { ring.style.width='56px'; ring.style.height='56px'; });
-        el.addEventListener('mouseleave', () => { ring.style.width='38px'; ring.style.height='38px'; });
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    let mx=0, my=0, rx=0, ry=0;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.transform = `translate(${mx}px, ${my}px)`;
     });
-
-    window.addEventListener('DOMContentLoaded', () => {
-      const savedMood = sessionStorage.getItem('selectedMood');
-      const savedPref = sessionStorage.getItem('selectedPreference') || sessionStorage.getItem('selectedAtmosphere');
-      if (savedMood) {
-        // Highlight the matching option in the sidebar
-        const opts = document.querySelectorAll('.atm-option');
-        opts.forEach(opt => {
-          if (opt.dataset.label === savedMood) {
-            opts.forEach(o => o.classList.remove('active'));
-            opt.classList.add('active');
-          }
-        });
-        // Update breadcrumb-like display if you have one
-        const prefBadge = document.getElementById('preference-badge');
-        if (prefBadge && savedPref) prefBadge.textContent = savedPref;
-      }
+    (function anim() {
+      rx += (mx - rx) * 0.1;
+      ry += (my - ry) * 0.1;
+      ring.style.transform = `translate(${rx}px, ${ry}px)`;
+      requestAnimationFrame(anim);
+    })();
+    
+    document.getElementById('start-btn').addEventListener('mouseenter', () => {
+      ring.style.width = '60px';
+      ring.style.height = '60px';
+    });
+    document.getElementById('start-btn').addEventListener('mouseleave', () => {
+      ring.style.width = '38px';
+      ring.style.height = '38px';
     });
   </script>
-
 </body>
 </html>
