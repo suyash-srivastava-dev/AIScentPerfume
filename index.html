@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alter Intelligence — Scent Journey</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet">
 
   <script type="importmap">
     {
@@ -19,16 +22,22 @@
 
   <style>
     :root {
-      --bg:        #f0ece4;
-      --text:      #1a1a18;
-      --muted:     #6b6860;
-      --accent:    #c9a84c;
-      --border:    rgba(0,0,0,0.10);
+      --bg: #f0ece4;
+      --text: #1a1a18;
+      --muted: #6b6860;
+      --accent: #c9a84c;
+      --border: rgba(0, 0, 0, 0.10);
       --font-mono: 'Space Mono', monospace;
-      --font-serif:'Cormorant Garamond', serif;
+      --font-serif: 'Cormorant Garamond', serif;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       background: var(--bg);
@@ -53,6 +62,7 @@
       user-select: none;
       white-space: nowrap;
     }
+
     .bs-sup {
       font-family: var(--font-mono);
       font-size: 0.62rem;
@@ -61,6 +71,7 @@
       display: block;
       margin-bottom: 4px;
     }
+
     .bs-main {
       font-family: var(--font-serif);
       font-size: 1.8rem;
@@ -70,6 +81,7 @@
       line-height: 1;
       display: block;
     }
+
     .bs-year {
       font-family: var(--font-serif);
       font-style: italic;
@@ -95,6 +107,7 @@
       height: 100%;
       position: relative;
     }
+
     #bottle-canvas {
       width: 100%;
       height: 100%;
@@ -109,6 +122,7 @@
       flex-direction: column;
       align-items: flex-start;
     }
+
     .eyebrow {
       font-size: 0.6rem;
       letter-spacing: 0.3em;
@@ -116,6 +130,7 @@
       text-transform: uppercase;
       margin-bottom: 22px;
     }
+
     h1.title {
       font-family: var(--font-serif);
       font-size: clamp(3rem, 5vw, 5.5rem);
@@ -124,6 +139,7 @@
       letter-spacing: 0.02em;
       margin-bottom: 26px;
     }
+
     .subtitle {
       font-size: 0.7rem;
       letter-spacing: 0.18em;
@@ -133,6 +149,7 @@
       line-height: 1.8;
       max-width: 26ch;
     }
+
     .btn-start {
       background: transparent;
       color: var(--text);
@@ -149,15 +166,21 @@
       align-items: center;
       gap: 14px;
     }
+
     .btn-start:hover {
       border-color: var(--accent);
       color: var(--accent);
     }
+
     .btn-start svg {
-      width: 12px; height: 12px;
+      width: 12px;
+      height: 12px;
       transition: transform 0.3s ease;
     }
-    .btn-start:hover svg { transform: translateX(5px); }
+
+    .btn-start:hover svg {
+      transform: translateX(5px);
+    }
 
     /* grain texture */
     body::after {
@@ -171,9 +194,19 @@
     }
 
     @media(max-width:900px) {
-      .landing-layout { flex-direction: column-reverse; }
-      .canvas-col { height: 52vh; }
-      .text-col { align-items: center; text-align: center; padding: 20px; }
+      .landing-layout {
+        flex-direction: column-reverse;
+      }
+
+      .canvas-col {
+        height: 52vh;
+      }
+
+      .text-col {
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+      }
     }
 
     /* ── Hidden view toggle ── */
@@ -185,7 +218,7 @@
       /* Hidden until hovered */
       opacity: 0;
       transition: opacity 0.3s ease;
-      background: rgba(240,236,228,0.6);
+      background: rgba(240, 236, 228, 0.6);
       border: 1px solid var(--border);
       padding: 6px 12px;
       font-family: var(--font-mono);
@@ -196,8 +229,16 @@
       text-transform: uppercase;
       backdrop-filter: blur(6px);
     }
-    .view-toggle:hover { opacity: 1 !important; color: var(--accent); border-color: var(--accent); }
-    body:hover .view-toggle { opacity: 0.25; }
+
+    .view-toggle:hover {
+      opacity: 1 !important;
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    body:hover .view-toggle {
+      opacity: 0.25;
+    }
 
     /* ── Static bottle image ── */
     .bottle-img {
@@ -206,12 +247,14 @@
       object-fit: contain;
       object-position: center;
       mix-blend-mode: multiply;
-      mask-image: linear-gradient(to right, rgba(0,0,0,1) 78%, rgba(0,0,0,0) 100%);
-      -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 78%, rgba(0,0,0,0) 100%);
-      display: none; /* hidden by default — 3D is default */
+      mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 78%, rgba(0, 0, 0, 0) 100%);
+      -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 78%, rgba(0, 0, 0, 0) 100%);
+      display: block;
+      /* visible by default — 2D is default */
     }
   </style>
 </head>
+
 <body>
 
   <!-- Hidden view toggle (top-right, reveals on hover) -->
@@ -229,13 +272,8 @@
     <!-- Three.js Glass Bottle + static image (toggled) -->
     <div class="canvas-col">
       <canvas id="bottle-canvas"></canvas>
-      <img
-        id="bottle-img"
-        src="assets/landing_page/Gemini_Generated_Image_q1v8lbq1v8lbq1v8-removebg-preview.png"
-        class="bottle-img"
-        alt="Alter Intelligence Signature Scent"
-        style="position:absolute;top:0;left:0;"
-      >
+      <img id="bottle-img" src="assets/landing_page/Gemini_Generated_Image_q1v8lbq1v8lbq1v8-removebg-preview.png"
+        class="bottle-img" alt="Alter Intelligence Signature Scent" style="position:absolute;top:0;left:0;">
     </div>
 
     <!-- Brand text -->
@@ -246,7 +284,7 @@
       <a href="preferences.html" class="btn-start">
         Begin Consultation
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
+          <path d="M5 12h14M12 5l7 7-7 7" />
         </svg>
       </a>
     </div>
@@ -362,6 +400,89 @@
     cap.position.y = 1.90;
     group.add(cap);
 
+    /* ──────────────── YSL Branding Decal ──────────────── */
+    // Draw the YSL monogram + wordmark onto an offscreen Canvas
+    const brandCanvas = document.createElement('canvas');
+    brandCanvas.width = 512;
+    brandCanvas.height = 512;
+    const ctx = brandCanvas.getContext('2d');
+
+    // Clear — transparent background
+    ctx.clearRect(0, 0, 512, 512);
+
+    const gold = '#c9a84c';
+
+    // ── YSL Monogram (hand-drawn via canvas paths) ──────
+    // Drawn in a 160×160 area, centred at (256, 190)
+    ctx.save();
+    ctx.translate(256, 190);
+    ctx.fillStyle = gold;
+    ctx.strokeStyle = gold;
+    ctx.lineWidth = 8;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    // Y — two diagonal strokes down to centre, then vertical
+    ctx.beginPath();
+    ctx.moveTo(-52, -70); ctx.lineTo(0, -10);   // left arm
+    ctx.moveTo(52, -70); ctx.lineTo(0, -10);   // right arm
+    ctx.moveTo(0, -10); ctx.lineTo(0, 40);    // stem down
+    ctx.stroke();
+
+    // S — a bold curved S overlapping the YL
+    ctx.beginPath();
+    // top arc
+    ctx.moveTo(28, -10);
+    ctx.bezierCurveTo(28, -50, -28, -50, -28, -10);
+    // bottom arc
+    ctx.bezierCurveTo(-28, 30, 28, 30, 28, 70);
+    ctx.lineWidth = 9;
+    ctx.stroke();
+
+    // L — horizontal base and vertical stroke
+    ctx.beginPath();
+    ctx.moveTo(-10, -10); ctx.lineTo(-10, 70);    // vertical
+    ctx.moveTo(-10, 70); ctx.lineTo(48, 70);    // horizontal foot
+    ctx.lineWidth = 8;
+    ctx.stroke();
+
+    ctx.restore();
+
+    // ── "YVES SAINT LAURENT" wordmark ──────────────────
+    ctx.fillStyle = gold;
+    ctx.font = 'italic 600 22px "Times New Roman", serif';
+    ctx.letterSpacing = '3px';
+    ctx.textAlign = 'center';
+    ctx.fillText('YVES SAINT LAURENT', 256, 340);
+
+
+
+
+    // ── Thin rule lines above and below wordmark ────────
+    ctx.strokeStyle = gold;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(80, 320); ctx.lineTo(432, 320); ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(80, 355); ctx.lineTo(432, 355); ctx.stroke();
+
+    // Apply as a texture to a transparent plane
+    const brandTex = new THREE.CanvasTexture(brandCanvas);
+    const brandMat = new THREE.MeshBasicMaterial({
+      map: brandTex,
+      transparent: true,
+      depthWrite: false,
+      opacity: 0.88,
+    });
+    // Plane sized to fit nicely on the bottle front face
+    const brandPlane = new THREE.Mesh(
+      new THREE.PlaneGeometry(1.3, 1.3),
+      brandMat
+    );
+    // Position just in front of the glass body front face (z = half depth + tiny gap)
+    brandPlane.position.set(0, -0.1, 0.534);
+    group.add(brandPlane);
+
     scene.add(group);
 
     // Initial pose (slight 3/4 angle like the reference)
@@ -374,7 +495,7 @@
 
     document.addEventListener('mousemove', (e) => {
       // Only track mouse in the left half of the screen (canvas area)
-      const nx = (e.clientX / window.innerWidth)  * 2 - 1;
+      const nx = (e.clientX / window.innerWidth) * 2 - 1;
       const ny = (e.clientY / window.innerHeight) * 2 - 1;
       targetRotY = 0.35 + nx * 0.35;
       targetRotX = 0.05 - ny * 0.12;
@@ -405,11 +526,16 @@
 
   <!-- Toggle: 3D ⇄ Image (runs independently of the module) -->
   <script>
-    (function() {
+    (function () {
       const btn = document.getElementById('view-toggle');
       const canvasEl = document.getElementById('bottle-canvas');
       const imgEl = document.getElementById('bottle-img');
-      let showing3d = true;
+      let showing3d = false; // Default: 2D image
+
+      // Apply defaults on load
+      canvasEl.style.display = 'none';
+      imgEl.style.display = 'block';
+      btn.textContent = 'IMG ⇄ 3D';
 
       btn.addEventListener('click', () => {
         showing3d = !showing3d;
@@ -427,4 +553,5 @@
   </script>
 
 </body>
+
 </html>

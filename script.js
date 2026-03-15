@@ -294,6 +294,77 @@ function createBottle() {
 
     // Dip tube removed (was rendering as opaque object inside bottle)
 
+    /* ──────────────── YSL Branding Decal ──────────────── */
+    const brandCanvas = document.createElement('canvas');
+    brandCanvas.width  = 512;
+    brandCanvas.height = 512;
+    const ctx = brandCanvas.getContext('2d');
+
+    ctx.clearRect(0, 0, 512, 512);
+    const gold = '#c9a84c';
+
+    // ── YSL Monogram ──
+    ctx.save();
+    ctx.translate(256, 190);
+    ctx.fillStyle = gold;
+    ctx.strokeStyle = gold;
+    ctx.lineWidth = 8;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    // Y
+    ctx.beginPath();
+    ctx.moveTo(-52, -70);  ctx.lineTo(0, -10);
+    ctx.moveTo( 52, -70);  ctx.lineTo(0, -10);
+    ctx.moveTo(0, -10);    ctx.lineTo(0,  40);
+    ctx.stroke();
+
+    // S
+    ctx.beginPath();
+    ctx.moveTo( 28, -10);
+    ctx.bezierCurveTo( 28, -50, -28, -50, -28, -10);
+    ctx.bezierCurveTo(-28,  30,  28,  30,  28,  70);
+    ctx.lineWidth = 9;
+    ctx.stroke();
+
+    // L
+    ctx.beginPath();
+    ctx.moveTo(-10, -10); ctx.lineTo(-10, 70);
+    ctx.moveTo(-10,  70); ctx.lineTo( 48, 70);
+    ctx.lineWidth = 8;
+    ctx.stroke();
+    ctx.restore();
+
+    // ── "YVES SAINT LAURENT" wordmark ──
+    ctx.fillStyle = gold;
+    ctx.font = 'italic 600 22px "Times New Roman", serif';
+    ctx.letterSpacing = '3px';
+    ctx.textAlign = 'center';
+    ctx.fillText('YVES SAINT LAURENT', 256, 340);
+
+    ctx.strokeStyle = gold;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(80, 320); ctx.lineTo(432, 320); ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(80, 355); ctx.lineTo(432, 355); ctx.stroke();
+
+    const brandTex = new THREE.CanvasTexture(brandCanvas);
+    const brandMat = new THREE.MeshBasicMaterial({
+        map: brandTex,
+        transparent: true,
+        depthWrite: false,
+        opacity: 0.88,
+    });
+    
+    // Scale for the larger script.js bottle
+    const brandPlane = new THREE.Mesh(
+        new THREE.PlaneGeometry(1.6, 1.6),
+        brandMat
+    );
+    brandPlane.position.set(0, 0.5, 0.76); // Just in front of the 1.5 depth box (half is 0.75)
+    bottleGroup.add(brandPlane);
+
     bottleGroup.position.y = -0.2;
     scene.add(bottleGroup);
 }
