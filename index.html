@@ -1,273 +1,430 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alter Intelligence — Scent Journey</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
 
   <style>
-    /* ── Match the app-wide shared theme ── */
     :root {
-      --bg: #f0ece4;
-      --text: #1a1a18;
-      --muted: #6b6860;
-      --accent: #c9a84c;
-      --border: rgba(0, 0, 0, 0.10);
+      --bg:        #f0ece4;
+      --text:      #1a1a18;
+      --muted:     #6b6860;
+      --accent:    #c9a84c;
+      --border:    rgba(0,0,0,0.10);
       --font-mono: 'Space Mono', monospace;
-      --font-serif: 'Cormorant Garamond', serif;
+      --font-serif:'Cormorant Garamond', serif;
     }
 
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background: var(--bg);
       color: var(--text);
+      height: 100vh;
+      overflow: hidden;
+      font-family: var(--font-mono);
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      overflow: hidden;
       position: relative;
-      font-family: var(--font-mono);
     }
 
-    /* ── Brandstorm Badge ── */
-    .brandstorm-logo {
+    /* ── L'Oréal Brandstorm Badge (top-center absolute) ── */
+    .brandstorm-badge {
       position: absolute;
-      top: 48px;
+      top: 44px;
       left: 50%;
       transform: translateX(-50%);
       text-align: center;
-      color: var(--text);
-      z-index: 10;
+      z-index: 20;
       user-select: none;
       white-space: nowrap;
     }
-
-    .bs-loreal {
+    .bs-sup {
       font-family: var(--font-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.22em;
+      font-size: 0.62rem;
+      letter-spacing: 0.28em;
       color: var(--muted);
-      text-transform: uppercase;
+      display: block;
+      margin-bottom: 4px;
     }
-
-    .bs-brandstorm {
+    .bs-main {
       font-family: var(--font-serif);
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: 400;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      line-height: 1.1;
+      line-height: 1;
+      display: block;
     }
-
     .bs-year {
       font-family: var(--font-serif);
       font-style: italic;
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       font-weight: 300;
-      letter-spacing: 0.05em;
       color: var(--accent);
+      display: block;
+      margin-top: 2px;
     }
 
-    /* ── Side-by-side layout ── */
+    /* ── Main layout ── */
     .landing-layout {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       width: 100%;
       height: 100%;
-      max-width: 1400px;
-      padding: 0 40px;
-      z-index: 1;
+      max-width: 1440px;
     }
 
-    /* ── 3D canvas column ── */
-    .landing-canvas-col {
-      flex: 1;
-      height: 100vh;
+    /* ── 3D Canvas ── */
+    .canvas-col {
+      flex: 1.15;
+      height: 100%;
       position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
     }
-
-    .landing-hero-img {
+    #bottle-canvas {
       width: 100%;
       height: 100%;
-      object-fit: contain;
-      object-position: center;
-      mix-blend-mode: multiply;
-      /* remove white bg on ivory background */
       display: block;
-      mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 100%);
-      -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 100%);
     }
 
-    /* ── Text column ── */
-    .landing-text-col {
+    /* ── Text ── */
+    .text-col {
       flex: 1;
-      padding-right: 6%;
-      padding-left: 2%;
+      padding: 0 6% 0 2%;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 0;
     }
-
-    .landing-eyebrow {
-      font-size: 0.62rem;
-      letter-spacing: 0.28em;
+    .eyebrow {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
       color: var(--accent);
       text-transform: uppercase;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
-
-    .landing-title {
+    h1.title {
       font-family: var(--font-serif);
       font-size: clamp(3rem, 5vw, 5.5rem);
       font-weight: 300;
       line-height: 1.0;
       letter-spacing: 0.02em;
-      margin-bottom: 28px;
+      margin-bottom: 26px;
     }
-
-    .landing-subtitle {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
+    .subtitle {
+      font-size: 0.7rem;
       letter-spacing: 0.18em;
       color: var(--muted);
       margin-bottom: 60px;
       text-transform: uppercase;
-      line-height: 1.7;
-      max-width: 28ch;
+      line-height: 1.8;
+      max-width: 26ch;
     }
-
     .btn-start {
       background: transparent;
       color: var(--text);
       border: 1px solid var(--border);
-      padding: 16px 42px;
+      padding: 16px 44px;
       font-family: var(--font-mono);
-      font-size: 0.68rem;
+      font-size: 0.67rem;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       cursor: pointer;
-      transition: all 0.35s ease;
+      transition: border-color 0.35s ease, color 0.35s ease;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 14px;
-      position: relative;
     }
-
-    .btn-start::after {
-      content: '';
-      position: absolute;
-      bottom: -1px;
-      left: 0;
-      width: 0%;
-      height: 1px;
-      background: var(--accent);
-      transition: width 0.4s ease;
-    }
-
-    .btn-start:hover::after {
-      width: 100%;
-    }
-
     .btn-start:hover {
       border-color: var(--accent);
       color: var(--accent);
     }
-
     .btn-start svg {
-      width: 12px;
-      height: 12px;
+      width: 12px; height: 12px;
       transition: transform 0.3s ease;
     }
+    .btn-start:hover svg { transform: translateX(5px); }
 
-    .btn-start:hover svg {
-      transform: translateX(5px);
-    }
-
-    /* ── Subtle grain overlay ── */
-    body::before {
+    /* grain texture */
+    body::after {
       content: '';
       position: fixed;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.035;
       pointer-events: none;
-      z-index: 999;
+      z-index: 998;
     }
 
-    @media (max-width: 900px) {
-      .landing-layout {
-        flex-direction: column-reverse;
-        padding: 80px 20px 20px;
-      }
+    @media(max-width:900px) {
+      .landing-layout { flex-direction: column-reverse; }
+      .canvas-col { height: 52vh; }
+      .text-col { align-items: center; text-align: center; padding: 20px; }
+    }
 
-      .landing-canvas-col {
-        height: 50vh;
-      }
+    /* ── Hidden view toggle ── */
+    .view-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+      /* Hidden until hovered */
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      background: rgba(240,236,228,0.6);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      cursor: pointer;
+      text-transform: uppercase;
+      backdrop-filter: blur(6px);
+    }
+    .view-toggle:hover { opacity: 1 !important; color: var(--accent); border-color: var(--accent); }
+    body:hover .view-toggle { opacity: 0.25; }
 
-      .landing-text-col {
-        align-items: center;
-        text-align: center;
-        padding: 0 20px;
-      }
+    /* ── Static bottle image ── */
+    .bottle-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      mix-blend-mode: multiply;
+      mask-image: linear-gradient(to right, rgba(0,0,0,1) 78%, rgba(0,0,0,0) 100%);
+      -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 78%, rgba(0,0,0,0) 100%);
+      display: none; /* hidden by default — 3D is default */
     }
   </style>
 </head>
-
 <body>
 
-  <!-- L'Oréal Brandstorm Badge -->
-  <div class="brandstorm-logo">
-    <div class="bs-loreal">L'Oréal</div>
-    <div class="bs-brandstorm">Brandstorm</div>
-    <div class="bs-year">2026</div>
+  <!-- Hidden view toggle (top-right, reveals on hover) -->
+  <button class="view-toggle" id="view-toggle" title="Toggle 3D / Image">3D ⇄ IMG</button>
+
+  <!-- L'Oréal Brandstorm badge -->
+  <div class="brandstorm-badge">
+    <span class="bs-sup">L'Oréal</span>
+    <span class="bs-main">Brandstorm</span>
+    <span class="bs-year">2026</span>
   </div>
 
   <div class="landing-layout">
 
-    <!-- Perfume bottle image -->
-    <div class="landing-canvas-col">
-      <img src="assets/landing_page/Gemini_Generated_Image_q1v8lbq1v8lbq1v8-removebg-preview.png"
-        class="landing-hero-img" alt="Alter Intelligence Signature Scent">
+    <!-- Three.js Glass Bottle + static image (toggled) -->
+    <div class="canvas-col">
+      <canvas id="bottle-canvas"></canvas>
+      <img
+        id="bottle-img"
+        src="assets/landing_page/Gemini_Generated_Image_q1v8lbq1v8lbq1v8-removebg-preview.png"
+        class="bottle-img"
+        alt="Alter Intelligence Signature Scent"
+        style="position:absolute;top:0;left:0;"
+      >
     </div>
 
-    <!-- Text block -->
-    <div class="landing-text-col">
-      <div class="landing-eyebrow">Alter Intelligence &mdash; Scent DNA System</div>
-      <h1 class="landing-title">Alter<br>Intelligence</h1>
-      <p class="landing-subtitle">Discover your olfactory identity through AI-guided fragrance profiling</p>
-      <a href="preferences.html" class="btn-start" id="start-btn">
+    <!-- Brand text -->
+    <div class="text-col">
+      <div class="eyebrow">Alter Intelligence &mdash; Scent DNA System</div>
+      <h1 class="title">Alter<br>Intelligence</h1>
+      <p class="subtitle">Discover your olfactory identity through AI-guided fragrance profiling</p>
+      <a href="preferences.html" class="btn-start">
         Begin Consultation
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-          <path d="M5 12h14M12 5l7 7-7 7" />
+          <path d="M5 12h14M12 5l7 7-7 7"/>
         </svg>
       </a>
     </div>
   </div>
 
+  <script type="module">
+    import * as THREE from 'three';
+    import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+    import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+
+    /* ──────────────── Renderer ──────────────── */
+    const canvas = document.getElementById('bottle-canvas');
+    const col = canvas.parentElement;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(col.clientWidth, col.clientHeight);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.1;
+    // Match the ivory CSS background — required for glass transmission to work
+    renderer.setClearColor(0xf0ece4, 1);
+
+    /* ──────────────── Scene & Camera ──────────────── */
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xf0ece4);
+
+    const camera = new THREE.PerspectiveCamera(38, col.clientWidth / col.clientHeight, 0.1, 100);
+    camera.position.set(0.3, 0.3, 6.5);
+
+    /* ──────────────── Environment (critical for glass refraction) ──────────────── */
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    pmrem.compileEquirectangularShader();
+    scene.environment = pmrem.fromScene(new RoomEnvironment()).texture;
+
+    /* ──────────────── Lights ──────────────── */
+    // Warm ambient to match ivory background
+    scene.add(new THREE.AmbientLight(0xf8f0e0, 0.8));
+
+    // Strong white key light (upper-right front)
+    const keyLight = new THREE.DirectionalLight(0xffffff, 4.0);
+    keyLight.position.set(4, 8, 6);
+    scene.add(keyLight);
+
+    // Blue-tinted fill (enhances the cobalt glass colour)
+    const fillLight = new THREE.PointLight(0x3355ff, 8, 20);
+    fillLight.position.set(-4, 2, 3);
+    scene.add(fillLight);
+
+    // Sharp rim light from behind-left to outline the glass edges
+    const rimLight = new THREE.DirectionalLight(0xffffff, 2.0);
+    rimLight.position.set(-5, 4, -4);
+    scene.add(rimLight);
+
+    // Warm floor bounce (mimics real product photography)
+    const bounceLight = new THREE.PointLight(0xffe4a0, 3, 10);
+    bounceLight.position.set(0, -4, 3);
+    scene.add(bounceLight);
+
+    /* ──────────────── Materials ──────────────── */
+
+    // ① Cobalt blue glass body — MeshPhysicalMaterial with full transmission
+    const glassMat = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color(0x0a2a6a),  // Deep cobalt blue
+      metalness: 0.05,
+      roughness: 0.04,
+      transmission: 1.0,          // Full glass
+      thickness: 2.0,             // Thick walls = stronger refraction
+      ior: 1.52,                  // Standard glass IOR
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.05,
+      transparent: true,
+      envMapIntensity: 2.0,
+    });
+
+    // ② Brushed silver neck collar
+    const silverMat = new THREE.MeshStandardMaterial({
+      color: 0xd0d0d8,
+      metalness: 1.0,
+      roughness: 0.2,
+    });
+
+    // ③ Crystal-clear cap (matching reference image — slightly white/frosted)
+    const capMat = new THREE.MeshPhysicalMaterial({
+      color: 0xdde8ff,  // Very pale blue-white tint
+      metalness: 0.05,
+      roughness: 0.08,
+      transmission: 0.85,
+      thickness: 1.2,
+      ior: 1.48,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.02,
+      transparent: true,
+      envMapIntensity: 1.5,
+    });
+
+    /* ──────────────── Bottle Assembly ──────────────── */
+    const group = new THREE.Group();
+
+    // Main body — RoundedBox matching the reference shape
+    const bodyGeo = new RoundedBoxGeometry(1.65, 2.4, 1.05, 10, 0.14);
+    const body = new THREE.Mesh(bodyGeo, glassMat);
+    group.add(body);
+
+    // Neck connector (silver band)
+    const neckGeo = new THREE.CylinderGeometry(0.24, 0.28, 0.32, 32);
+    const neck = new THREE.Mesh(neckGeo, silverMat);
+    neck.position.y = 1.36;
+    group.add(neck);
+
+    // The cap — RoundedBox (squarer, slightly overhanging like in image)
+    const capGeo = new RoundedBoxGeometry(0.90, 0.75, 0.90, 8, 0.10);
+    const cap = new THREE.Mesh(capGeo, capMat);
+    cap.position.y = 1.90;
+    group.add(cap);
+
+    scene.add(group);
+
+    // Initial pose (slight 3/4 angle like the reference)
+    group.rotation.y = 0.35;
+    group.rotation.x = 0.05;
+
+    /* ──────────────── Mouse Interaction ──────────────── */
+    let targetRotY = 0.35;
+    let targetRotX = 0.05;
+
+    document.addEventListener('mousemove', (e) => {
+      // Only track mouse in the left half of the screen (canvas area)
+      const nx = (e.clientX / window.innerWidth)  * 2 - 1;
+      const ny = (e.clientY / window.innerHeight) * 2 - 1;
+      targetRotY = 0.35 + nx * 0.35;
+      targetRotX = 0.05 - ny * 0.12;
+    });
+
+    /* ──────────────── Render Loop ──────────────── */
+    (function animate() {
+      requestAnimationFrame(animate);
+
+      // Smooth follow
+      group.rotation.y += (targetRotY - group.rotation.y) * 0.06;
+      group.rotation.x += (targetRotX - group.rotation.x) * 0.06;
+
+      // Elegant float
+      group.position.y = Math.sin(Date.now() * 0.0008) * 0.065;
+
+      renderer.render(scene, camera);
+    })();
+
+    /* ──────────────── Resize ──────────────── */
+    window.addEventListener('resize', () => {
+      const w = col.clientWidth, h = col.clientHeight;
+      renderer.setSize(w, h);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    });
+  </script>
+
+  <!-- Toggle: 3D ⇄ Image (runs independently of the module) -->
+  <script>
+    (function() {
+      const btn = document.getElementById('view-toggle');
+      const canvasEl = document.getElementById('bottle-canvas');
+      const imgEl = document.getElementById('bottle-img');
+      let showing3d = true;
+
+      btn.addEventListener('click', () => {
+        showing3d = !showing3d;
+        if (showing3d) {
+          canvasEl.style.display = 'block';
+          imgEl.style.display = 'none';
+          btn.textContent = '3D ⇄ IMG';
+        } else {
+          canvasEl.style.display = 'none';
+          imgEl.style.display = 'block';
+          btn.textContent = 'IMG ⇄ 3D';
+        }
+      });
+    })();
+  </script>
 
 </body>
-
 </html>

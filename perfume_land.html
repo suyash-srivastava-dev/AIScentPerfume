@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alter Intelligence - 3D Signature</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            background: #050505;
+            overflow: hidden;
+        }
+
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+            cursor: move;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="canvas-container"></div>
+
+    <script>
+        // --- Setup ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 0, 8);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.toneMapping = THREE.ReinhardToneMapping;
+        container.appendChild(renderer.domElement);
+
+        // --- Materials ---
+        // Deep Blue Glass Body
+        const bottleMaterial = new THREE.MeshPhysicalMaterial({
+            color: 0x051a3d,      // Deep Midnight Blue
+            metalness: 0,
+            roughness: 0.02,
+            transmission: 0.9,    // Allow light through
+            thickness: 1.5,       // Simulates thick glass walls
+            ior: 1.45,            // Index of refraction for glass
+            reflectivity: 0.5,
+            iridescence: 0.1,     // Subtle oily sheen like the image
+            transparent: true
+        });
+
+        // Crystalline Cap
+        const capMaterial = new THREE.MeshPhysicalMaterial({
+            color: 0xffffff,
+            metalness: 0,
+            roughness: 0,
+            transmission: 1,
+            thickness: 0.8,
+            ior: 2.4,             // High IOR for diamond/crystal sparkle
+            transparent: true
+        });
+
+        // --- Geometry ---
+        const bottleGroup = new THREE.Group();
+
+        // Main Body (Angled rectangle)
+        const bodyGeom = new THREE.BoxGeometry(2, 2.8, 1.2);
+        const body = new THREE.Mesh(bodyGeom, bottleMaterial);
+        bottleGroup.add(body);
+
+        // Silver Neck
+        const neckGeom = new THREE.CylinderGeometry(0.25, 0.25, 0.4, 32);
+        const neckMat = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 1, roughness: 0.1 });
+        const neck = new THREE.Mesh(neckGeom, neckMat);
+        neck.position.y = 1.5;
+        bottleGroup.add(neck);
+
+        // Crystal Cap
+        const capGeom = new THREE.BoxGeometry(1.2, 0.9, 1.2);
+        const cap = new THREE.Mesh(capGeom, capMaterial);
+        cap.position.y = 2.0;
+        bottleGroup.add(cap);
+
+        scene.add(bottleGroup);
+
+        // --- Lighting (The Secret Sauce) ---
+        // Front highlight
+        const mainLight = new THREE.PointLight(0xffffff, 40);
+        mainLight.position.set(2, 3, 5);
+        scene.add(mainLight);
+
+        // Blue fill light to enhance the liquid color
+        const blueFill = new THREE.PointLight(0x0055ff, 60);
+        blueFill.position.set(-3, -2, 2);
+        scene.add(blueFill);
+
+        // Rim light (for those sharp white edges)
+        const rimLight = new THREE.SpotLight(0xffffff, 100);
+        rimLight.position.set(-5, 5, -5);
+        scene.add(rimLight);
+
+        scene.add(new THREE.AmbientLight(0xffffff, 0.3));
+
+        // --- Interactivity ---
+        let mouseX = 0, mouseY = 0;
+        let targetX = 0.5, targetY = 0.2; // Initial tilt matching your image
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth - 0.5);
+            mouseY = (e.clientY / window.innerHeight - 0.5);
+        });
+
+        // --- Animation Loop ---
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Smoothly interpolate rotation to mouse position
+            targetX += (mouseX - targetX) * 0.05;
+            targetY += (mouseY - targetY) * 0.05;
+
+            bottleGroup.rotation.y = targetX * 1.5;
+            bottleGroup.rotation.x = targetY * 1.0;
+
+            // Subtle floating motion
+            bottleGroup.position.y = Math.sin(Date.now() * 0.001) * 0.1;
+
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
+
+</body>
+
+</html>
