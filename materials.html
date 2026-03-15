@@ -1,204 +1,334 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alter Atelier — Materials</title>
+  <title>Alter Intelligence — Materials</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="shared.css">
   <style>
-    .mat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+    .mat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
 
     .mat-card {
-      background:#fff; border:1px solid var(--border); border-radius:3px;
-      padding:24px; display:flex; flex-direction:column;
-      min-height:300px; cursor:none; position:relative;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      min-height: 300px;
+      cursor: none;
+      position: relative;
       transition: border-color .3s, transform .3s, box-shadow .3s;
     }
-    .mat-card:hover { border-color:var(--text); box-shadow:0 12px 30px rgba(0,0,0,.06); z-index:10; }
-    
+
+    .mat-card:hover {
+      border-color: var(--text);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, .06);
+      z-index: 10;
+    }
+
     .mat-card.selected {
       border-color: var(--accent);
       transform: translateY(-4px);
-      box-shadow: 0 16px 40px rgba(0,0,0,.08);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, .08);
       border-width: 1.5px;
     }
 
     .icon-wrap {
-      flex:1; display:flex; justify-content:center; align-items:center;
-      color: #d4c47a; /* pale gold */
-      transition: color .3s, transform .4s cubic-bezier(0.175,0.885,0.32,1.275);
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #d4c47a;
+      /* pale gold */
+      transition: color .3s, transform .4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    .mat-card:hover .icon-wrap { transform:scale(1.1); }
-    .mat-card.selected .icon-wrap { color: var(--accent); transform:scale(1.15); }
-    
-    .icon-wrap svg { width:48px; height:48px; fill:currentColor; }
 
-    .mat-meta { border-top:1px solid var(--border); padding-top:16px; margin-top:20px; }
-    .mat-type { font-size:.45rem; letter-spacing:.18em; color:var(--muted); margin-bottom:8px; }
-    .mat-card.selected .mat-type { color:var(--accent); }
-    
-    .mat-name { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-style:italic; margin-bottom:4px; color:var(--text); }
-    .mat-trait { font-size:.45rem; letter-spacing:.18em; color:rgba(0,0,0,.4); transition:color .3s; }
-    .mat-card.selected .mat-trait { color:var(--accent); }
+    .mat-card:hover .icon-wrap {
+      transform: scale(1.1);
+    }
+
+    .mat-card.selected .icon-wrap {
+      color: var(--accent);
+      transform: scale(1.15);
+    }
+
+    .icon-wrap svg {
+      width: 48px;
+      height: 48px;
+      fill: currentColor;
+    }
+
+    .mat-meta {
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+      margin-top: 20px;
+    }
+
+    .mat-type {
+      font-size: .45rem;
+      letter-spacing: .18em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .mat-card.selected .mat-type {
+      color: var(--accent);
+    }
+
+    .mat-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-style: italic;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .mat-trait {
+      font-size: .45rem;
+      letter-spacing: .18em;
+      color: rgba(0, 0, 0, .4);
+      transition: color .3s;
+    }
+
+    .mat-card.selected .mat-trait {
+      color: var(--accent);
+    }
 
     .radio-btn {
-      position:absolute; top:16px; right:16px;
-      width:18px; height:18px; border-radius:50%;
-      border:1.5px solid var(--border);
-      display:grid; place-items:center;
-      transition:all .3s;
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      display: grid;
+      place-items: center;
+      transition: all .3s;
     }
-    .radio-btn::after {
-      content:''; width:8px; height:8px; border-radius:50%;
-      background:var(--accent); opacity:0; transform:scale(0);
-      transition:all .3s cubic-bezier(0.175,0.885,0.32,1.275);
-    }
-    .mat-card.selected .radio-btn { border-color:var(--accent); }
-    .mat-card.selected .radio-btn::after { opacity:1; transform:scale(1); }
 
-    .footer-content { display:flex; justify-content:space-between; align-items:center; flex:1; }
+    .radio-btn::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0;
+      transform: scale(0);
+      transition: all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .mat-card.selected .radio-btn {
+      border-color: var(--accent);
+    }
+
+    .mat-card.selected .radio-btn::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex: 1;
+    }
 
     .selection-count {
-      display:flex; flex-direction:column; align-items:center; gap:2px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
     }
-    .sc-label { font-size:.45rem; letter-spacing:.2em; color:rgba(0,0,0,.3); }
-    .sc-val { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.9rem; color:var(--accent); }
 
-    @media(max-width:860px){ .mat-grid { grid-template-columns:repeat(2,1fr); } }
-    @media(max-width:540px){ .mat-grid { grid-template-columns:1fr; } }
+    .sc-label {
+      font-size: .45rem;
+      letter-spacing: .2em;
+      color: rgba(0, 0, 0, .3);
+    }
+
+    .sc-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: .9rem;
+      color: var(--accent);
+    }
+
+    @media(max-width:860px) {
+      .mat-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media(max-width:540px) {
+      .mat-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
+
 <body>
 
-<div class="cursor-dot" id="cursor-dot"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
 
-<header class="shared-header">
-  <div class="hdr-brand">
-    <span class="hdr-brand-name">Alter Atelier</span>
-    <span class="hdr-brand-sub">GUIDED CONSULTATION ▪ SECTION B</span>
-  </div>
-  <div class="hdr-right">
-    <span class="hdr-step">STEP <strong>02 / 04</strong></span>
-    <button class="hdr-close" onclick="window.history.back()">✕</button>
-  </div>
-</header>
-
-<nav class="shared-breadcrumb">
-  <div class="bc-inner">
-    <div class="bc-steps">
-      <span class="bc-step done">01. PROFILE</span>
-      <span class="bc-sep">/</span>
-      <span class="bc-step active">02. PREFERENCES</span>
-      <span class="bc-sep">/</span>
-      <span class="bc-step">03. NOTES</span>
-      <span class="bc-sep">/</span>
-      <span class="bc-step">04. LAYERING</span>
+  <header class="shared-header">
+    <div class="hdr-brand">
+      <span class="hdr-brand-name">Alter Intelligence</span>
+      <span class="hdr-brand-sub">GUIDED CONSULTATION ▪ SECTION B</span>
     </div>
-    <div style="display:flex;align-items:center;gap:18px">
-      <div class="substep-indicator">
-        <span class="substep-dot done"></span>
-        <span class="substep-dot done"></span>
-        <span class="substep-dot done"></span>
-        <span class="substep-dot active"></span>
+    <div class="hdr-right">
+      <span class="hdr-step">STEP <strong>02 / 03</strong></span>
+      <button class="hdr-close" onclick="window.history.back()">✕</button>
+    </div>
+  </header>
+
+  <nav class="shared-breadcrumb">
+    <div class="bc-inner">
+      <div class="bc-steps">
+        <span class="bc-step done">01. PROFILE</span>
+        <span class="bc-sep">/</span>
+        <span class="bc-step active">02. PREFERENCES</span>
+        <span class="bc-sep">/</span>
+        <span class="bc-step">03. NOTES</span>
+        <span class="bc-sep">/</span>
+        <span class="bc-step">04. LAYERING</span>
       </div>
-      <div class="bc-progress">
-        SENSORY CALIBRATION
-        <span class="bc-progress-pct" id="progress-pct">100%</span>
-        <div class="bc-track"><div class="bc-fill" id="progress-fill" style="width:100%"></div></div>
+      <div style="display:flex;align-items:center;gap:18px">
+        <div class="substep-indicator">
+          <span class="substep-dot done"></span>
+          <span class="substep-dot done"></span>
+          <span class="substep-dot done"></span>
+          <span class="substep-dot active"></span>
+        </div>
+        <div class="bc-progress">
+          SENSORY CALIBRATION
+          <span class="bc-progress-pct" id="progress-pct">100%</span>
+          <div class="bc-track">
+            <div class="bc-fill" id="progress-fill" style="width:100%"></div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-<main class="page-main">
-  <div class="page-intro">
-    <h1 class="page-question" style="font-size:2.8rem;margin-bottom:20px;">Which materials attract you most?</h1>
-    <p class="page-hint" style="max-width:300px;margin:0 auto;line-height:1.6">SENSORY CALIBRATION: SELECT THE TEXTURES THAT RESONATE WITH YOUR INDIVIDUAL AESTHETIC PROFILE.</p>
-  </div>
-
-  <div class="mat-grid" id="card-grid">
-
-    <div class="mat-card" data-val="Linen">
-        <div class="radio-btn"></div>
-        <div class="icon-wrap">
-            <svg viewBox="0 0 24 24"><path d="M4 20L20 4M4 14L14 4M10 20L20 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        </div>
-        <div class="mat-meta">
-            <div class="mat-type">TYPE: 01</div>
-            <div class="mat-name">Linen</div>
-            <div class="mat-trait">CRISP &amp; AIRY</div>
-        </div>
+  <main class="page-main">
+    <div class="page-intro">
+      <h1 class="page-question" style="font-size:2.8rem;margin-bottom:20px;">Which materials attract you most?</h1>
+      <p class="page-hint" style="max-width:300px;margin:0 auto;line-height:1.6">SENSORY CALIBRATION: SELECT THE
+        TEXTURES THAT RESONATE WITH YOUR INDIVIDUAL AESTHETIC PROFILE.</p>
     </div>
 
-    <div class="mat-card" data-val="Silk">
+    <div class="mat-grid" id="card-grid">
+
+      <div class="mat-card" data-val="Linen">
         <div class="radio-btn"></div>
         <div class="icon-wrap">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c3-3 5-3 8 0s5 3 8 0 5-3 8 0M2 17c3-3 5-3 8 0s5 3 8 0 5-3 8 0M2 7c3-3 5-3 8 0s5 3 8 0 5-3 8 0"/></svg>
+          <svg viewBox="0 0 24 24">
+            <path d="M4 20L20 4M4 14L14 4M10 20L20 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
         </div>
         <div class="mat-meta">
-            <div class="mat-type">TYPE: 02</div>
-            <div class="mat-name">Silk</div>
-            <div class="mat-trait">FLUID &amp; SMOOTH</div>
+          <div class="mat-type">TYPE: 01</div>
+          <div class="mat-name">Linen</div>
+          <div class="mat-trait">CRISP &amp; AIRY</div>
         </div>
-    </div>
+      </div>
 
-    <div class="mat-card" data-val="Velvet">
+      <div class="mat-card" data-val="Silk">
         <div class="radio-btn"></div>
         <div class="icon-wrap">
-            <svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" fill="currentColor"/><rect x="14" y="4" width="6" height="6" fill="currentColor"/><rect x="4" y="14" width="6" height="6" fill="currentColor"/><rect x="14" y="14" width="6" height="6" fill="currentColor"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path
+              d="M2 12c3-3 5-3 8 0s5 3 8 0 5-3 8 0M2 17c3-3 5-3 8 0s5 3 8 0 5-3 8 0M2 7c3-3 5-3 8 0s5 3 8 0 5-3 8 0" />
+          </svg>
         </div>
         <div class="mat-meta">
-            <div class="mat-type">TYPE: 03</div>
-            <div class="mat-name">Velvet</div>
-            <div class="mat-trait">RICH &amp; DEEP</div>
+          <div class="mat-type">TYPE: 02</div>
+          <div class="mat-name">Silk</div>
+          <div class="mat-trait">FLUID &amp; SMOOTH</div>
         </div>
-    </div>
+      </div>
 
-    <div class="mat-card" data-val="Leather">
+      <div class="mat-card" data-val="Velvet">
         <div class="radio-btn"></div>
         <div class="icon-wrap">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2L18 2L20 6L20 20C20 21.1 19.1 22 18 22L6 22C4.9 22 4 21.1 4 20L4 6L6 2Z"/></svg>
+          <svg viewBox="0 0 24 24">
+            <rect x="4" y="4" width="6" height="6" fill="currentColor" />
+            <rect x="14" y="4" width="6" height="6" fill="currentColor" />
+            <rect x="4" y="14" width="6" height="6" fill="currentColor" />
+            <rect x="14" y="14" width="6" height="6" fill="currentColor" />
+          </svg>
         </div>
         <div class="mat-meta">
-            <div class="mat-type">TYPE: 04</div>
-            <div class="mat-name">Leather</div>
-            <div class="mat-trait">SUPPLE &amp; BOLD</div>
+          <div class="mat-type">TYPE: 03</div>
+          <div class="mat-name">Velvet</div>
+          <div class="mat-trait">RICH &amp; DEEP</div>
         </div>
-    </div>
+      </div>
 
-    <div class="mat-card" data-val="Cashmere">
+      <div class="mat-card" data-val="Leather">
         <div class="radio-btn"></div>
         <div class="icon-wrap">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 19C19.9853 19 22 16.9853 22 14.5C22 12.1325 20.176 10.1982 17.8546 10.0152C17.3075 6.63412 14.3414 4 10.8333 4C7.05939 4 4 7.13401 4 11C4 11.2366 4.01217 11.4705 4.0356 11.7011C2.28581 12.4419 1 14.2217 1 16.3333C1 18.9107 3.01454 21 5.5 21H17.5V19Z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 2L18 2L20 6L20 20C20 21.1 19.1 22 18 22L6 22C4.9 22 4 21.1 4 20L4 6L6 2Z" />
+          </svg>
         </div>
         <div class="mat-meta">
-            <div class="mat-type">TYPE: 05</div>
-            <div class="mat-name">Cashmere</div>
-            <div class="mat-trait">WARM &amp; SOFT</div>
+          <div class="mat-type">TYPE: 04</div>
+          <div class="mat-name">Leather</div>
+          <div class="mat-trait">SUPPLE &amp; BOLD</div>
         </div>
-    </div>
+      </div>
 
-    <div class="mat-card" data-val="Satin">
+      <div class="mat-card" data-val="Cashmere">
         <div class="radio-btn"></div>
         <div class="icon-wrap">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z M20 4L20.8 6.2L23 7L20.8 7.8L20 10L19.2 7.8L17 7L19.2 6.2L20 4Z M6 18L6.8 20.2L9 21L6.8 21.8L6 24L5.2 21.8L3 21L5.2 20.2L6 18Z" /></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M17.5 19C19.9853 19 22 16.9853 22 14.5C22 12.1325 20.176 10.1982 17.8546 10.0152C17.3075 6.63412 14.3414 4 10.8333 4C7.05939 4 4 7.13401 4 11C4 11.2366 4.01217 11.4705 4.0356 11.7011C2.28581 12.4419 1 14.2217 1 16.3333C1 18.9107 3.01454 21 5.5 21H17.5V19Z" />
+          </svg>
         </div>
         <div class="mat-meta">
-            <div class="mat-type">TYPE: 06</div>
-            <div class="mat-name">Satin</div>
-            <div class="mat-trait">LUSTROUS &amp; COOL</div>
+          <div class="mat-type">TYPE: 05</div>
+          <div class="mat-name">Cashmere</div>
+          <div class="mat-trait">WARM &amp; SOFT</div>
         </div>
+      </div>
+
+      <div class="mat-card" data-val="Satin">
+        <div class="radio-btn"></div>
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z M20 4L20.8 6.2L23 7L20.8 7.8L20 10L19.2 7.8L17 7L19.2 6.2L20 4Z M6 18L6.8 20.2L9 21L6.8 21.8L6 24L5.2 21.8L3 21L5.2 20.2L6 18Z" />
+          </svg>
+        </div>
+        <div class="mat-meta">
+          <div class="mat-type">TYPE: 06</div>
+          <div class="mat-name">Satin</div>
+          <div class="mat-trait">LUSTROUS &amp; COOL</div>
+        </div>
+      </div>
+
     </div>
+  </main>
 
-  </div>
-</main>
-
-<footer class="shared-footer" style="padding-top:16px;padding-bottom:16px;">
-  <div class="footer-content">
+  <footer class="shared-footer" style="padding-top:16px;padding-bottom:16px;">
+    <div class="footer-content">
       <button class="footer-btn footer-btn--ghost" onclick="window.history.back()">
         ← RETURN TO PREVIOUS
       </button>
@@ -211,58 +341,59 @@
       <button class="footer-btn footer-btn--primary" id="continue-btn" onclick="finishPreferences()">
         CONFIRM &amp; PROCEED →
       </button>
-  </div>
-</footer>
+    </div>
+  </footer>
 
-<script>
-  // Cursor
-  const dot=document.getElementById('cursor-dot'), ring=document.getElementById('cursor-ring');
-  let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.transform=`translate(${mx}px,${my}px)`;});
-  (function anim(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(anim);})();
+  <script>
+    // Cursor
+    const dot = document.getElementById('cursor-dot'), ring = document.getElementById('cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; dot.style.transform = `translate(${mx}px,${my}px)`; });
+    (function anim() { rx += (mx - rx) * .1; ry += (my - ry) * .1; ring.style.transform = `translate(${rx}px,${ry}px)`; requestAnimationFrame(anim); })();
 
-  let selectedSet = new Set();
-  
-  document.querySelectorAll('.mat-card').forEach(c=>{
-    c.addEventListener('mouseenter',()=>{ring.style.width='56px';ring.style.height='56px';});
-    c.addEventListener('mouseleave',()=>{ring.style.width='38px';ring.style.height='38px';});
-    c.addEventListener('click',()=>{
-      const val = c.dataset.val;
-      if(selectedSet.has(val)){
+    let selectedSet = new Set();
+
+    document.querySelectorAll('.mat-card').forEach(c => {
+      c.addEventListener('mouseenter', () => { ring.style.width = '56px'; ring.style.height = '56px'; });
+      c.addEventListener('mouseleave', () => { ring.style.width = '38px'; ring.style.height = '38px'; });
+      c.addEventListener('click', () => {
+        const val = c.dataset.val;
+        if (selectedSet.has(val)) {
           selectedSet.delete(val);
           c.classList.remove('selected');
-      } else {
+        } else {
           selectedSet.add(val);
           c.classList.add('selected');
-      }
-      updateState();
+        }
+        updateState();
+      });
     });
-  });
 
-  function updateState() {
+    function updateState() {
       const cnt = selectedSet.size;
-      document.getElementById('sel-count').textContent = `${cnt} material${cnt===1?'':'s'} selected`;
-      
+      document.getElementById('sel-count').textContent = `${cnt} material${cnt === 1 ? '' : 's'} selected`;
+
       const btn = document.getElementById('continue-btn');
       if (cnt > 0) {
-          btn.classList.add('ready');
+        btn.classList.add('ready');
       } else {
-          btn.classList.remove('ready');
+        btn.classList.remove('ready');
       }
-  }
+    }
 
-  function finishPreferences(){
-    if(selectedSet.size === 0) return;
-    sessionStorage.setItem('materials', Array.from(selectedSet).join(','));
-    // This is the end of PREFERENCES (Step 2/4). Navigate back to the 3D visualizer (index.html) to show the selection?
-    // Or go to the next step, but usually the 3D visualizer acts as the home/summary.
-    // Let's return to moods.html for now and we will show the combined selections in the right panel.
-    window.location.href='moods.html';
-  }
+    function finishPreferences() {
+      if (selectedSet.size === 0) return;
+      sessionStorage.setItem('materials', Array.from(selectedSet).join(','));
+      // This is the end of PREFERENCES (Step 2/4). Navigate back to the 3D visualizer (index.html) to show the selection?
+      // Or go to the next step, but usually the 3D visualizer acts as the home/summary.
+      // Let's return to moods.html for now and we will show the combined selections in the right panel.
+      window.location.href = 'moods.html';
+    }
 
-  document.querySelectorAll('.mat-card').forEach((c,i)=>{
-    c.style.animation=`fadeUp .5s ease ${120+i*70}ms both`;
-  });
-</script>
+    document.querySelectorAll('.mat-card').forEach((c, i) => {
+      c.style.animation = `fadeUp .5s ease ${120 + i * 70}ms both`;
+    });
+  </script>
 </body>
+
 </html>

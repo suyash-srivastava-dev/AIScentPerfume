@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alter Atelier — Preference Selection</title>
+  <title>Alter Intelligence — Preference Selection</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet">
 
   <link rel="stylesheet" href="preferences.css">
 </head>
+
 <body>
 
   <!-- ======== CURSOR FOLLOWER ======== -->
@@ -20,11 +24,11 @@
   <!-- ======== HEADER ======== -->
   <header class="pref-header">
     <div class="header-brand">
-      <span class="brand-name">Alter Atelier</span>
+      <span class="brand-name">Alter Intelligence</span>
       <span class="brand-sub">SCENT DNA ANALYSIS ▪ PHASE 01</span>
     </div>
     <div class="header-right">
-      <span class="step-tag">STEP <strong>02 / 04</strong></span>
+      <span class="step-tag">STEP <strong>02 / 03</strong></span>
       <button class="close-btn" onclick="window.location.href='index.html'" aria-label="Close">✕</button>
     </div>
   </header>
@@ -43,16 +47,23 @@
       </div>
       <div style="display:flex;align-items:center;gap:18px">
         <div class="substep-indicator" style="display:flex;gap:6px;align-items:center;">
-          <span class="substep-dot active" style="width:6px;height:6px;border-radius:50%;background:#c9a84c;border:1px solid #c9a84c;"></span>
-          <span class="substep-dot" style="width:6px;height:6px;border-radius:50%;background:transparent;border:1px solid rgba(0,0,0,0.3);"></span>
-          <span class="substep-dot" style="width:6px;height:6px;border-radius:50%;background:transparent;border:1px solid rgba(0,0,0,0.3);"></span>
-          <span class="substep-dot" style="width:6px;height:6px;border-radius:50%;background:transparent;border:1px solid rgba(0,0,0,0.3);"></span>
+          <span class="substep-dot active"
+            style="width:6px;height:6px;border-radius:50%;background:#c9a84c;border:1px solid #c9a84c;"></span>
+          <span class="substep-dot"
+            style="width:6px;height:6px;border-radius:50%;background:transparent;border:1px solid rgba(0,0,0,0.3);"></span>
+          <span class="substep-dot"
+            style="width:6px;height:6px;border-radius:50%;background:transparent;border:1px solid rgba(0,0,0,0.3);"></span>
+          <span class="substep-dot"
+            style="width:6px;height:6px;border-radius:50%;background:transparent;border:1px solid rgba(0,0,0,0.3);"></span>
         </div>
-        <div class="breadcrumb-progress" style="display:flex;align-items:center;gap:10px;font-size:.55rem;letter-spacing:.12em;color:#6b6860;">
+        <div class="breadcrumb-progress"
+          style="display:flex;align-items:center;gap:10px;font-size:.55rem;letter-spacing:.12em;color:#6b6860;">
           CALIBRATION PROGRESS
           <span class="progress-pct" id="progress-pct" style="color:#c9a84c;font-weight:700;min-width:30px;">0%</span>
-          <div class="progress-track" style="width:110px;height:2px;background:rgba(0,0,0,0.1);border-radius:1px;overflow:hidden;">
-            <div class="progress-fill" id="progress-fill" style="height:100%;background:#c9a84c;width:0%;transition:width 0.5s;"></div>
+          <div class="progress-track"
+            style="width:110px;height:2px;background:rgba(0,0,0,0.1);border-radius:1px;overflow:hidden;">
+            <div class="progress-fill" id="progress-fill"
+              style="height:100%;background:#c9a84c;width:0%;transition:width 0.5s;"></div>
           </div>
         </div>
       </div>
@@ -199,7 +210,7 @@
 
   <script>
     // ======== CUSTOM CURSOR ========
-    const dot  = document.getElementById('cursor-dot');
+    const dot = document.getElementById('cursor-dot');
     const ring = document.getElementById('cursor-ring');
     let mx = 0, my = 0, rx = 0, ry = 0;
 
@@ -223,8 +234,8 @@
     let selectedCard = null;
 
     cards.forEach(card => {
-      const mask  = card.querySelector('.card-fill-mask');
-      const wrap  = card.querySelector('.card-img-wrap');
+      const mask = card.querySelector('.card-fill-mask');
+      const wrap = card.querySelector('.card-img-wrap');
       const color = card.dataset.color;
 
       // Cursor proximity fill
@@ -232,7 +243,7 @@
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        const xPct = (x / rect.width)  * 100;
+        const xPct = (x / rect.width) * 100;
         const yPct = (y / rect.height) * 100;
 
         // Elliptical radial mask centred on cursor
@@ -242,7 +253,7 @@
         wrap.style.transform = `scale(1.04)`;
 
         // Scale cursor ring bigger
-        ring.style.width  = '60px';
+        ring.style.width = '60px';
         ring.style.height = '60px';
       });
 
@@ -251,7 +262,7 @@
           mask.style.opacity = '0';
         }
         wrap.style.transform = 'scale(1)';
-        ring.style.width  = '38px';
+        ring.style.width = '38px';
         ring.style.height = '38px';
       });
 
@@ -285,8 +296,8 @@
     function updateStatusBar() {
       const sel = document.querySelectorAll('.atm-card.selected').length;
       const cont = document.getElementById('continue-btn');
-      const dot  = document.getElementById('status-dot');
-      const txt  = document.getElementById('status-text');
+      const dot = document.getElementById('status-dot');
+      const txt = document.getElementById('status-text');
 
       if (sel > 0) {
         cont.disabled = false;
@@ -328,4 +339,5 @@
   </script>
 
 </body>
+
 </html>

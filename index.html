@@ -1,118 +1,280 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alter Atelier — Scent Journey</title>
+  <title>Alter Intelligence — Scent Journey</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="shared.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet">
+
+
+
   <style>
+    /* ── Match the app-wide shared theme ── */
+    :root {
+      --bg: #f0ece4;
+      --text: #1a1a18;
+      --muted: #6b6860;
+      --accent: #c9a84c;
+      --border: rgba(0, 0, 0, 0.10);
+      --font-mono: 'Space Mono', monospace;
+      --font-serif: 'Cormorant Garamond', serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      background-color: var(--bg);
+      background: var(--bg);
       color: var(--text);
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
-      margin: 0;
+      overflow: hidden;
+      position: relative;
+      font-family: var(--font-mono);
+    }
+
+    /* ── Brandstorm Badge ── */
+    .brandstorm-logo {
+      position: absolute;
+      top: 48px;
+      left: 50%;
+      transform: translateX(-50%);
       text-align: center;
+      color: var(--text);
+      z-index: 10;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .bs-loreal {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .bs-brandstorm {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+
+    .bs-year {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.6rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+    }
+
+    /* ── Side-by-side layout ── */
+    .landing-layout {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      height: 100%;
+      max-width: 1400px;
+      padding: 0 40px;
+      z-index: 1;
+    }
+
+    /* ── 3D canvas column ── */
+    .landing-canvas-col {
+      flex: 1;
+      height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
     }
-    .landing-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 4.5rem;
-      font-weight: 300;
-      margin-bottom: 24px;
-      letter-spacing: 0.05em;
-      opacity: 0;
-      animation: fadeIn 2s ease forwards 0.5s;
+
+    .landing-hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      mix-blend-mode: multiply;
+      /* remove white bg on ivory background */
+      display: block;
+      mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 100%);
+      -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 100%);
+      animation: breathe 4s ease-in-out infinite;
+      transform-origin: center;
     }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(1.00); }
+      50%       { transform: scale(1.06); }
+    }
+
+    /* ── Text column ── */
+    .landing-text-col {
+      flex: 1;
+      padding-right: 6%;
+      padding-left: 2%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+    }
+
+    .landing-eyebrow {
+      font-size: 0.62rem;
+      letter-spacing: 0.28em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .landing-title {
+      font-family: var(--font-serif);
+      font-size: clamp(3rem, 5vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: 0.02em;
+      margin-bottom: 28px;
+    }
+
     .landing-subtitle {
       font-family: var(--font-mono);
-      font-size: 0.75rem;
-      letter-spacing: 0.25em;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
       color: var(--muted);
-      margin-bottom: 70px;
+      margin-bottom: 60px;
       text-transform: uppercase;
-      opacity: 0;
-      animation: fadeIn 2s ease forwards 1s;
+      line-height: 1.7;
+      max-width: 28ch;
     }
+
     .btn-start {
       background: transparent;
       color: var(--text);
       border: 1px solid var(--border);
-      padding: 18px 48px;
+      padding: 16px 42px;
       font-family: var(--font-mono);
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      cursor: none; /* for custom cursor */
-      transition: all 0.4s ease;
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.35s ease;
       text-decoration: none;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 12px;
-      opacity: 0;
-      animation: fadeIn 2s ease forwards 1.5s;
+      gap: 14px;
+      position: relative;
     }
+
+    .btn-start::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 0%;
+      height: 1px;
+      background: var(--accent);
+      transition: width 0.4s ease;
+    }
+
+    .btn-start:hover::after {
+      width: 100%;
+    }
+
     .btn-start:hover {
-      background: var(--text);
-      color: var(--bg);
-      border-color: var(--text);
+      border-color: var(--accent);
+      color: var(--accent);
     }
+
     .btn-start svg {
-      width: 14px;
-      height: 14px;
+      width: 12px;
+      height: 12px;
       transition: transform 0.3s ease;
     }
+
     .btn-start:hover svg {
-      transform: translateX(4px);
+      transform: translateX(5px);
     }
-    @keyframes fadeIn {
-      to { opacity: 1; }
+
+    /* ── Subtle grain overlay ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    @media (max-width: 900px) {
+      .landing-layout {
+        flex-direction: column-reverse;
+        padding: 80px 20px 20px;
+      }
+
+      .landing-canvas-col {
+        height: 50vh;
+      }
+
+      .landing-text-col {
+        align-items: center;
+        text-align: center;
+        padding: 0 20px;
+      }
     }
   </style>
 </head>
+
 <body>
 
-  <!-- Custom Cursor -->
-  <div class="cursor-dot" id="cursor-dot"></div>
-  <div class="cursor-ring" id="cursor-ring"></div>
+  <!-- L'Oréal Brandstorm Badge -->
+  <div class="brandstorm-logo">
+    <div class="bs-loreal">L'Oréal</div>
+    <div class="bs-brandstorm">Brandstorm</div>
+    <div class="bs-year">2026</div>
+  </div>
 
-  <h1 class="landing-title">Alter Atelier</h1>
-  <div class="landing-subtitle">Discover Your Olfactory Identity</div>
-  
-  <a href="preferences.html" class="btn-start" id="start-btn">
-    BEGIN CONSULTATION
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-  </a>
+  <div class="landing-layout">
 
-  <script>
-    // Cursor handling
-    const dot = document.getElementById('cursor-dot');
-    const ring = document.getElementById('cursor-ring');
-    let mx=0, my=0, rx=0, ry=0;
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      dot.style.transform = `translate(${mx}px, ${my}px)`;
-    });
-    (function anim() {
-      rx += (mx - rx) * 0.1;
-      ry += (my - ry) * 0.1;
-      ring.style.transform = `translate(${rx}px, ${ry}px)`;
-      requestAnimationFrame(anim);
-    })();
-    
-    document.getElementById('start-btn').addEventListener('mouseenter', () => {
-      ring.style.width = '60px';
-      ring.style.height = '60px';
-    });
-    document.getElementById('start-btn').addEventListener('mouseleave', () => {
-      ring.style.width = '38px';
-      ring.style.height = '38px';
-    });
-  </script>
+    <!-- Perfume bottle image -->
+    <div class="landing-canvas-col">
+      <img src="assets/landing_page/Gemini_Generated_Image_q1v8lbq1v8lbq1v8-removebg-preview.png"
+        class="landing-hero-img" alt="Alter Intelligence Signature Scent">
+    </div>
+
+    <!-- Text block -->
+    <div class="landing-text-col">
+      <div class="landing-eyebrow">Alter Intelligence &mdash; Scent DNA System</div>
+      <h1 class="landing-title">Alter<br>Intelligence</h1>
+      <p class="landing-subtitle">Discover your olfactory identity through AI-guided fragrance profiling</p>
+      <a href="preferences.html" class="btn-start" id="start-btn">
+        Begin Consultation
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+  </div>
+
+
 </body>
+
 </html>

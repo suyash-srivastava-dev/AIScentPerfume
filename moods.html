@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alter Atelier - Scent Journey</title>
-  
+  <title>Alter Intelligence - Scent Journey</title>
+
   <link rel="stylesheet" href="shared.css">
   <link rel="stylesheet" href="style.css">
-  
+
   <!-- ES Module Import Map for Three.js -->
   <script type="importmap">
     {
@@ -21,6 +22,7 @@
   <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
+
 <body>
 
   <!-- Custom Cursor -->
@@ -29,45 +31,53 @@
 
   <header class="shared-header" style="position:relative; z-index: 100;">
     <div class="hdr-brand">
-      <span class="hdr-brand-name">Alter Atelier</span>
+      <span class="hdr-brand-name">Alter Intelligence</span>
       <span class="hdr-brand-sub">SCENT DNA ANALYSIS ▪ V.02.4.1</span>
     </div>
     <div class="hdr-right">
-      <span class="hdr-step">STEP <strong>02 / 05</strong></span>
+      <span class="hdr-step">STEP <strong>03 / 03</strong></span>
       <span class="hdr-step">SESSION ID <strong style="color:var(--text);">AU-892-X</strong></span>
     </div>
   </header>
 
   <main class="dashboard">
-    
+
     <!-- Left Sidebar: Selection -->
     <aside class="sidebar-left">
       <h2 class="section-title">ATMOSPHERE SELECTION</h2>
-      
+
       <div class="atmosphere-list" id="atmosphere-options">
-        
+
         <div class="atm-option active" data-color="#a8e6a3" data-label="Fresh Morning">
           <div class="atm-num">01. FRESH MORNING</div>
           <div class="atm-desc">Dewy, Crisp, Clean</div>
-          <div class="atm-progress"><div class="atm-fill" style="width: 40%"></div></div>
+          <div class="atm-progress">
+            <div class="atm-fill" style="width: 40%"></div>
+          </div>
         </div>
 
         <div class="atm-option" data-color="#ffb700" data-label="Candlelit Dinner">
           <div class="atm-num">02. CANDLELIT DINNER</div>
           <div class="atm-desc">Warm, Spicy, Alluring</div>
-          <div class="atm-progress"><div class="atm-fill" style="width: 75%"></div></div>
+          <div class="atm-progress">
+            <div class="atm-fill" style="width: 75%"></div>
+          </div>
         </div>
 
         <div class="atm-option" data-color="#2e8b57" data-label="Rainy Forest">
           <div class="atm-num">03. RAINY FOREST</div>
           <div class="atm-desc">Earthy, Mossy, Wet Wood</div>
-          <div class="atm-progress"><div class="atm-fill" style="width: 60%"></div></div>
+          <div class="atm-progress">
+            <div class="atm-fill" style="width: 60%"></div>
+          </div>
         </div>
 
         <div class="atm-option" data-color="#8a2be2" data-label="Luxury Lounge">
           <div class="atm-num">04. LUXURY LOUNGE</div>
           <div class="atm-desc">Velvet, Leather, Amber</div>
-          <div class="atm-progress"><div class="atm-fill" style="width: 85%"></div></div>
+          <div class="atm-progress">
+            <div class="atm-fill" style="width: 85%"></div>
+          </div>
         </div>
 
       </div>
@@ -77,7 +87,9 @@
           <span>MOLECULAR SYNTHESIS</span>
           <span class="status-active">IN PROGRESS</span>
         </div>
-        <div class="status-bar"><div class="status-fill" id="synthesis-fill"></div></div>
+        <div class="status-bar">
+          <div class="status-fill" id="synthesis-fill"></div>
+        </div>
         <div class="status-row mt-2">
           <span>STABILITY ALPHA</span>
           <span id="stability-val">0.822</span>
@@ -102,31 +114,31 @@
 
     <!-- Right Sidebar: Notes & Actions -->
     <aside class="sidebar-right">
-      
+
       <div class="notes-composition">
         <h2 class="notes-title">NOTES COMPOSITION</h2>
-        
+
         <div class="note-layer">
           <div class="note-level">TOP NOTE</div>
           <div class="note-row">
-             <div class="note-name" id="top-note-name">Bergamot</div>
-             <div class="note-trait" id="top-note-trait">Crisp</div>
+            <div class="note-name" id="top-note-name">Bergamot</div>
+            <div class="note-trait" id="top-note-trait">Crisp</div>
           </div>
         </div>
 
         <div class="note-layer">
           <div class="note-level">HEART NOTE</div>
           <div class="note-row">
-             <div class="note-name" id="heart-note-name">White Tea</div>
-             <div class="note-trait" id="heart-note-trait">Delicate</div>
+            <div class="note-name" id="heart-note-name">White Tea</div>
+            <div class="note-trait" id="heart-note-trait">Delicate</div>
           </div>
         </div>
 
         <div class="note-layer">
           <div class="note-level">BASE NOTE</div>
           <div class="note-row">
-             <div class="note-name" id="base-note-name">Clean Musk</div>
-             <div class="note-trait" id="base-note-trait">Soft</div>
+            <div class="note-name" id="base-note-name">Clean Musk</div>
+            <div class="note-trait" id="base-note-trait">Soft</div>
           </div>
         </div>
       </div>
@@ -145,39 +157,40 @@
 
     </aside>
 
-  <!-- Run script directly without local server -->
-  <script src="script.js"></script>
+    <!-- Run script directly without local server -->
+    <script src="script.js"></script>
 
-  <!-- Apply mood from preference selection -->
-  <script>
-    // Cursor handling
-    const dot=document.getElementById('cursor-dot'), ring=document.getElementById('cursor-ring');
-    let mx=0,my=0,rx=0,ry=0;
-    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.transform=`translate(${mx}px,${my}px)`;});
-    (function anim(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(anim);})();
-    document.querySelectorAll('button, .atm-option').forEach(el => {
-        el.addEventListener('mouseenter', () => { ring.style.width='56px'; ring.style.height='56px'; });
-        el.addEventListener('mouseleave', () => { ring.style.width='38px'; ring.style.height='38px'; });
-    });
+    <!-- Apply mood from preference selection -->
+    <script>
+      // Cursor handling
+      const dot = document.getElementById('cursor-dot'), ring = document.getElementById('cursor-ring');
+      let mx = 0, my = 0, rx = 0, ry = 0;
+      document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; dot.style.transform = `translate(${mx}px,${my}px)`; });
+      (function anim() { rx += (mx - rx) * .1; ry += (my - ry) * .1; ring.style.transform = `translate(${rx}px,${ry}px)`; requestAnimationFrame(anim); })();
+      document.querySelectorAll('button, .atm-option').forEach(el => {
+        el.addEventListener('mouseenter', () => { ring.style.width = '56px'; ring.style.height = '56px'; });
+        el.addEventListener('mouseleave', () => { ring.style.width = '38px'; ring.style.height = '38px'; });
+      });
 
-    window.addEventListener('DOMContentLoaded', () => {
-      const savedMood = sessionStorage.getItem('selectedMood');
-      const savedPref = sessionStorage.getItem('selectedPreference') || sessionStorage.getItem('selectedAtmosphere');
-      if (savedMood) {
-        // Highlight the matching option in the sidebar
-        const opts = document.querySelectorAll('.atm-option');
-        opts.forEach(opt => {
-          if (opt.dataset.label === savedMood) {
-            opts.forEach(o => o.classList.remove('active'));
-            opt.classList.add('active');
-          }
-        });
-        // Update breadcrumb-like display if you have one
-        const prefBadge = document.getElementById('preference-badge');
-        if (prefBadge && savedPref) prefBadge.textContent = savedPref;
-      }
-    });
-  </script>
+      window.addEventListener('DOMContentLoaded', () => {
+        const savedMood = sessionStorage.getItem('selectedMood');
+        const savedPref = sessionStorage.getItem('selectedPreference') || sessionStorage.getItem('selectedAtmosphere');
+        if (savedMood) {
+          // Highlight the matching option in the sidebar
+          const opts = document.querySelectorAll('.atm-option');
+          opts.forEach(opt => {
+            if (opt.dataset.label === savedMood) {
+              opts.forEach(o => o.classList.remove('active'));
+              opt.classList.add('active');
+            }
+          });
+          // Update breadcrumb-like display if you have one
+          const prefBadge = document.getElementById('preference-badge');
+          if (prefBadge && savedPref) prefBadge.textContent = savedPref;
+        }
+      });
+    </script>
 
 </body>
+
 </html>
