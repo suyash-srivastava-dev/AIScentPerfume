@@ -249,8 +249,8 @@
       mix-blend-mode: multiply;
       mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 78%, rgba(0, 0, 0, 0) 100%);
       -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 78%, rgba(0, 0, 0, 0) 100%);
-      display: block;
-      /* visible by default — 2D is default */
+      display: none;
+      /* hidden by default — 3D is default */
     }
   </style>
 </head>
@@ -530,12 +530,12 @@
       const btn = document.getElementById('view-toggle');
       const canvasEl = document.getElementById('bottle-canvas');
       const imgEl = document.getElementById('bottle-img');
-      let showing3d = false; // Default: 2D image
+      let showing3d = true;
 
       // Apply defaults on load
-      canvasEl.style.display = 'none';
-      imgEl.style.display = 'block';
-      btn.textContent = 'IMG ⇄ 3D';
+      canvasEl.style.display = 'block';
+      imgEl.style.display = 'none';
+      btn.textContent = '3D ⇄ IMG';
 
       btn.addEventListener('click', () => {
         showing3d = !showing3d;
